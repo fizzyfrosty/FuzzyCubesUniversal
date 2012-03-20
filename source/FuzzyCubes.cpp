@@ -26,6 +26,10 @@ Version Number: Major.minor.build
 1.1.0 - 2/19/12
 1.0.0 - 2/6/12
 
+3/20/12
+General Changes:
+	- Continued Resolution correction
+
 3/14/12
 General Changes:
 	- Start Resolution correction for any screensize with old assets
@@ -31510,26 +31514,34 @@ void LoadBackgroundAndOtherInit()
 {
 
 	transitionObject.Initialize();
+	for( int i = 0; i < transitionObject.numOfOverlays; i++ )
+	{
+		transitionObject.transitionSprite[i].setSize( width, height );
+	}
+
 	LoadSoundData();
 
 	splashImage = Iw2DCreateImage("splash.png");
 	splashSprite.setUWidth( 480 );
 	splashSprite.setUHeight( 320 );
-	splashSprite.setSize( 480, 320 );
+	//splashSprite.setSize( 480, 320 );
+	splashSprite.setSize( width, height );
 	splashSprite.setImage( splashImage );
 	splashSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 
 	titleImage = Iw2DCreateImage("title.png");
 	titleSprite.setUWidth( 480 );
 	titleSprite.setUHeight( 320 );
-	titleSprite.setSize( 480, 320 );
+	//titleSprite.setSize( 480, 320 );
+	titleSprite.setSize( width, height );
 	titleSprite.setImage( titleImage );
 	titleSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 	
 	// load loading screen for new game
 	loadingScreen.setUWidth( 480 );
 	loadingScreen.setUHeight( 320 );
-	loadingScreen.setSize( 480, 320 );
+	//loadingScreen.setSize( 480, 320 );
+	loadingScreen.setSize( width, height );
 	loadingImage = Iw2DCreateImage("loading2.png");
 	loadingScreen.setImage( loadingImage );
 	loadingScreen.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
@@ -31537,12 +31549,14 @@ void LoadBackgroundAndOtherInit()
 	// loading clock animation
 	loadingIconSprite.setUWidth( 128 );
 	loadingIconSprite.setUHeight( 128 );
-	loadingIconSprite.setSize( 128, 128 );
+	//loadingIconSprite.setSize( 128, 128 );
+	loadingIconSprite.setSize( width * .27, width * .27 );
 	loadingIconImage = Iw2DCreateImage( "loadingIcon.png" );
 	loadingIconSprite.setImage( loadingIconImage );
 	loadingIconSprite.setDelayTime( 2 );
 	loadingIconSprite.setTotalFrames( 15 );
-	loadingIconSprite.setPosition( IwGxGetScreenWidth() - 75 , IwGxGetScreenHeight() - 75 );
+	//loadingIconSprite.setPosition( IwGxGetScreenWidth() - 75 , IwGxGetScreenHeight() - 75 );
+	loadingIconSprite.setPosition( width * .84, height * .77 );
 	
 	// LOAD BACKGROUND AND STARS
 	
@@ -31805,7 +31819,8 @@ void LoadMenuData()
 	// initialize Trophy Screen background for displaying message
 	trophyMessageBackgroundImage = Iw2DCreateImage("trophyMessageBackground.png");DisplayLoading();
 	trophyMessageBackgroundSprite.setImage( trophyMessageBackgroundImage );
-	trophyMessageBackgroundSprite.setSize( 480, 320 );
+	//trophyMessageBackgroundSprite.setSize( 480, 320 );
+	trophyMessageBackgroundSprite.setSize( width, height );
 	trophyMessageBackgroundSprite.setUWidth( 480 );
 	trophyMessageBackgroundSprite.setUHeight( 320 );
 	trophyMessageBackgroundSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
@@ -31851,7 +31866,8 @@ void LoadMenuData()
 		}
 	}
 
-	trophyMessageSprite.setSize( 480, 320 );
+	//trophyMessageSprite.setSize( 480, 320 );
+	trophyMessageSprite.setSize( width, height );
 	trophyMessageSprite.setUWidth( 480 );
 	trophyMessageSprite.setUHeight( 320 );
 	trophyMessageSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );

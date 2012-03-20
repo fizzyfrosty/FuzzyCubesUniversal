@@ -387,10 +387,10 @@ includepath .
 
 deployments
 {
-	name='fuzzycubes'
-	caption='Fuzzy Cubes' #maximum of 11 characters to be fully displayed in device	
-	#caption='Fuzzy Beta'
-	#name='fuzzycubesbeta'
+	#name='fuzzycubes'
+	#caption='Fuzzy Cubes' #maximum of 11 characters to be fully displayed in device	
+	caption='Fuzzy Universal'
+	name='fuzzycubesuniversal'
 	embed-icf='1'
 	provider='Workhorse Bytes'
 
@@ -404,12 +404,12 @@ deployments
 	iphone-icon-settings-high-res=data/icon58x58.png	
 	itunes-artwork=data/icon512x512.png
 	iphone-prerendered-icon='1'
-	iphone-disable-ipad='1'
+	iphone-disable-ipad='0'
 	
 	iphone-icon-ipad=data/icon72x72.png
 	iphone-icon-ipad-search=data/icon50x50.png
-	iphone-appid='com.workhorsebytes.fuzzycubes'
-	#iphone-appid='com.workhorsebytes.fuzzycubesbeta'
+	#iphone-appid='com.workhorsebytes.fuzzycubes'
+	iphone-appid='com.workhorsebytes.fuzzycubesuniversal'
 
 	#for distribution only
 	#iphone-provisioning-profile='data/Fuzzy_Cubes_Distribution_Profile.mobileprovision'
