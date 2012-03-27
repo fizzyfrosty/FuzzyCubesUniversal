@@ -32113,7 +32113,8 @@ void LoadLevelData()
 
 			tutorialSprites[i].setUWidth( 128 );
 			tutorialSprites[i].setUHeight( 128 );
-			tutorialSprites[i].setSize( 100, 100 );
+			//tutorialSprites[i].setSize( 100, 100 );
+			tutorialSprites[i].setSize( width * .208, width * .208 );
 			tutorialSprites[i].setImage( tutorialImages[i] );
 
 			// this is exception for plane shift image
@@ -32121,21 +32122,24 @@ void LoadLevelData()
 			{
 				tutorialSprites[i].setUWidth( 480 );
 				tutorialSprites[i].setUHeight( 320 );
-				tutorialSprites[i].setSize( 480, 320 );
+				//tutorialSprites[i].setSize( 480, 320 );
+				tutorialSprites[i].setSize( width, height );
 				tutorialSprites[i].setImage( tutorialImages[i] );
 			}
 			else if( i == 9 ) // this is the donotdie image
 			{
 				tutorialSprites[i].setUWidth( 256 );
 				tutorialSprites[i].setUHeight( 256 );
-				tutorialSprites[i].setSize( 256, 256 );
+				//tutorialSprites[i].setSize( 256, 256 );
+				tutorialSprites[i].setSize( width * .533, width * .533 );
 				tutorialSprites[i].setImage( tutorialImages[i] );
 			}
 			else if( i == 11 )
 			{
 				tutorialSprites[i].setUWidth( 256 );
 				tutorialSprites[i].setUHeight( 256 );
-				tutorialSprites[i].setSize( 200, 200 );
+				//tutorialSprites[i].setSize( 200, 200 );
+				tutorialSprites[i].setSize( width * .416, width * .416 );
 				tutorialSprites[i].setImage( tutorialImages[i] );
 			}
 		}
@@ -32150,7 +32154,8 @@ void LoadLevelData()
 	bombDefusedSprite.setImage( bombDefusedImage );
 	bombDefusedSprite.setUWidth( 128 );
 	bombDefusedSprite.setUHeight( 128 );
-	bombDefusedSprite.setSize( 250, 250 );
+	//bombDefusedSprite.setSize( 250, 250 );
+	bombDefusedSprite.setSize( width * .521, width * .521 );
 	bombDefusedSprite.setDelayTime( 1 );
 	bombDefusedSprite.setTotalFrames( 60 );
 	bombDefusedSprite.setRepeatCount( 1 );
@@ -32159,7 +32164,8 @@ void LoadLevelData()
 	// bomb alert
 	bombAlertSprite.setUWidth( 64 );
 	bombAlertSprite.setUHeight( 64 );
-	bombAlertSprite.setSize( 64, 64 );
+	//bombAlertSprite.setSize( 64, 64 );
+	bombAlertSprite.setSize( width * .133, width * .133 );
 	bombAlertImage = Iw2DCreateImage( "bomb_alert.png" );DisplayLoading();
 	bombAlertSprite.setImage( bombAlertImage );
 	bombAlertSprite.setDelayTime( 1 );
@@ -32172,7 +32178,8 @@ void LoadLevelData()
 	// level bar	
 	progressBarSprite.setUWidth( 110 );
 	progressBarSprite.setUHeight( 20 );
-	progressBarSprite.setSize( 110, 20 );
+	//progressBarSprite.setSize( 110, 20 );
+	progressBarSprite.setSize( width * .229, height * 0.063 );
 	progressBarImage = Iw2DCreateImage( "hud_levelbar.png" );DisplayLoading();
 	progressBarSprite.setImage( progressBarImage );
 	progressBarSprite.setDelayTime( 1 );
@@ -32180,7 +32187,8 @@ void LoadLevelData()
 	
 	progressBarFrameSprite.setUWidth( 110 );
 	progressBarFrameSprite.setUHeight( 20 );
-	progressBarFrameSprite.setSize( 110, 20 );
+	//progressBarFrameSprite.setSize( 110, 20 );
+	progressBarFrameSprite.setSize( width * .229, height * 0.063 );
 	progressBarFrameImage = Iw2DCreateImage( "hud_levelbarframe.png" );DisplayLoading();
 	progressBarFrameSprite.setImage( progressBarFrameImage );
 
@@ -32198,7 +32206,8 @@ void LoadLevelData()
 	{
 		pixieSprite[i].setUWidth( 128 );
 		pixieSprite[i].setUHeight( 128 );
-		pixieSprite[i].setSize( 175, 175 );		
+		//pixieSprite[i].setSize( 175, 175 );
+		pixieSprite[i].setSize( width * .365, width * .365 );
 		pixieSprite[i].setImage( pixieImage );
 		pixieSprite[i].setDelayTime( 1 );
 		pixieSprite[i].setRepeatCount( 1 );
@@ -32213,7 +32222,8 @@ void LoadLevelData()
 	// load game over sprite
 	gameOverSprite.setUWidth( 480 );
 	gameOverSprite.setUHeight( 240 );
-	gameOverSprite.setSize( 480, 240 );
+	//gameOverSprite.setSize( 480, 240 );
+	gameOverSprite.setSize( width, height * .75 );
 	gameOverImage = Iw2DCreateImage( "gameover.png" );DisplayLoading();
 	gameOverSprite.setImage( gameOverImage );
 	gameOverSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2);
@@ -32221,7 +32231,8 @@ void LoadLevelData()
 	// load trophy sprite
 	trophySprite.setUWidth( 128 );
 	trophySprite.setUHeight( 128 );
-	trophySprite.setSize( 96, 96 );
+	//trophySprite.setSize( 96, 96 );
+	trophySprite.setSize( width * .2, width * .2 );
 	trophySpriteImage = Iw2DCreateImage( "trophySprite.png" );DisplayLoading();
 	trophySprite.setImage( trophySpriteImage );
 	trophySprite.setDelayTime( 1 );
@@ -32232,7 +32243,8 @@ void LoadLevelData()
 	// load plus one fuzzy
 	plusOneFuzzySprite.setUWidth( 128 );
 	plusOneFuzzySprite.setUHeight( 128 );
-	plusOneFuzzySprite.setSize( 128, 128 );
+	//plusOneFuzzySprite.setSize( 128, 128 );
+	plusOneFuzzySprite.setSize( width * .267, width * .267 );
 	plusOneFuzzyImage = Iw2DCreateImage( "plusonefuzzy.png" );DisplayLoading();
 	plusOneFuzzySprite.setImage( plusOneFuzzyImage );
 	plusOneFuzzySprite.setDelayTime( 1 );
@@ -32243,7 +32255,8 @@ void LoadLevelData()
 	// Congrats Images	
 	congratsSpriteLevelUp.setUWidth( 128 );
 	congratsSpriteLevelUp.setUHeight( 128 );
-	congratsSpriteLevelUp.setSize( 250, 250 );
+	//congratsSpriteLevelUp.setSize( 250, 250 );
+	congratsSpriteLevelUp.setSize( width * .521, width * .521 );
 	congratsImageLevelUp = Iw2DCreateImage( "congratsLevelUp.png" );DisplayLoading();
 	congratsSpriteLevelUp.setImage( congratsImageLevelUp );
 	congratsSpriteLevelUp.setDelayTime( 1 );
@@ -32254,7 +32267,8 @@ void LoadLevelData()
 	// Congrats Images
 	congratsSpriteNice.setUWidth( 128 );
 	congratsSpriteNice.setUHeight( 128 );
-	congratsSpriteNice.setSize( 128, 128 );
+	//congratsSpriteNice.setSize( 128, 128 );
+	congratsSpriteNice.setSize( width * .267, width * .267 );
 	congratsImageNice = Iw2DCreateImage( "congratsNice.png" );DisplayLoading();
 	congratsSpriteNice.setImage( congratsImageNice );
 	congratsSpriteNice.setDelayTime( 1 );
@@ -32263,7 +32277,8 @@ void LoadLevelData()
 
 	congratsSpriteComplete.setUWidth( 128 );
 	congratsSpriteComplete.setUHeight( 128 );
-	congratsSpriteComplete.setSize( 384, 384 );
+	//congratsSpriteComplete.setSize( 384, 384 );
+	congratsSpriteComplete.setSize( width * .8, width * .8 );
 	congratsImageComplete = Iw2DCreateImage( "congratsComplete.png" );DisplayLoading();
 	congratsSpriteComplete.setImage( congratsImageComplete );
 	congratsSpriteComplete.setDelayTime( 1 );
@@ -32272,7 +32287,8 @@ void LoadLevelData()
 
 	congratsSpriteSuper.setUWidth( 128 );
 	congratsSpriteSuper.setUHeight( 128 );
-	congratsSpriteSuper.setSize( 250, 250 );
+	//congratsSpriteSuper.setSize( 250, 250 );
+	congratsSpriteSuper.setSize( width * .521, width * .521 );
 	congratsImageSuper = Iw2DCreateImage( "congratsSuper.png" );DisplayLoading();
 	congratsSpriteSuper.setImage( congratsImageSuper );
 	congratsSpriteSuper.setDelayTime( 1 );
@@ -32281,7 +32297,8 @@ void LoadLevelData()
 	
 	congratsSpriteGreat.setUWidth( 128 );
 	congratsSpriteGreat.setUHeight( 128 );
-	congratsSpriteGreat.setSize( 250, 250 );
+	//congratsSpriteGreat.setSize( 250, 250 );
+	congratsSpriteGreat.setSize( width * .521, width * .521 );
 	congratsImageGreat = Iw2DCreateImage( "congratsGreat.png" );DisplayLoading();
 	congratsSpriteGreat.setImage( congratsImageGreat );
 	congratsSpriteGreat.setDelayTime( 1 );
@@ -32296,7 +32313,8 @@ void LoadLevelData()
 		{
 			minusOneFuzzySprite[i][j].setUWidth( 64 );
 			minusOneFuzzySprite[i][j].setUHeight( 64 );
-			minusOneFuzzySprite[i][j].setSize( 64, 64 );
+			//minusOneFuzzySprite[i][j].setSize( 64, 64 );
+			minusOneFuzzySprite[i][j].setSize( width * .133, width * .133 );
 
 			minusOneFuzzySprite[i][j].setImage( minusOneFuzzyImage );
 
@@ -32315,7 +32333,8 @@ void LoadLevelData()
 		{			
 			pointSprites[i][j].setUWidth( 64 );
 			pointSprites[i][j].setUHeight( 64 );
-			pointSprites[i][j].setSize( 64, 64 ); // not affected. hardcoded sizes for specific points
+			//pointSprites[i][j].setSize( 64, 64 ); // not affected. hardcoded sizes for specific points
+			pointSprites[i][j].setSize( width * .133, width * .133 ); // not affected. hardcoded sizes for specific points
 
 			pointSprites[i][j].set100PointsImage( pointImage100 );
 			pointSprites[i][j].set1000PointsImage( pointImage1000 );
@@ -32332,7 +32351,8 @@ void LoadLevelData()
 			pointSprites[i][j].setRepeatCount( 1 );
 		}
 	}
-
+	
+	// here. make these resolution independent
 	// load active square indicators
 	blueSquare.Initialize( ActiveSquare::BLUE );DisplayLoading();
 	redSquare.Initialize( ActiveSquare::RED );DisplayLoading();
@@ -32559,14 +32579,16 @@ void LoadLevelData()
 	// SPRITES	
 	livesSprite.setUWidth( 64 );
 	livesSprite.setUHeight( 64 );
-	livesSprite.setSize( 32, 32 );
+	//livesSprite.setSize( 32, 32 );
+	livesSprite.setSize( width * .067, width * .067 );
 	livesImage = Iw2DCreateImage("fuzzy_FireFuzz_small.png");DisplayLoading();
 	livesSprite.setImage( livesImage );
 	livesSprite.setDelayTime( 2 );
 
 	progressBarFuzzySprite.setUWidth( 64 );
 	progressBarFuzzySprite.setUHeight( 64 );
-	progressBarFuzzySprite.setSize( 40, 40 );
+	//progressBarFuzzySprite.setSize( 40, 40 );
+	progressBarFuzzySprite.setSize( width * .083, width * .083 );
 	spacebusImage = Iw2DCreateImage("spacebus.png");DisplayLoading();
 	progressBarFuzzySprite.setImage( spacebusImage );
 	progressBarFuzzySprite.setDelayTime( 1 );
@@ -32575,7 +32597,8 @@ void LoadLevelData()
 	progressBarGlowImage = Iw2DCreateImage("progressBarGlow.png");DisplayLoading();
 	progressBarGlowSprite.setUWidth( 64 );
 	progressBarGlowSprite.setUHeight( 64 );
-	progressBarGlowSprite.setSize( 75, 75 );
+	//progressBarGlowSprite.setSize( 75, 75 );
+	progressBarGlowSprite.setSize( width * .156, width * .156 );
 	progressBarGlowSprite.setImage( progressBarGlowImage );
 	progressBarGlowSprite.setDelayTime( 1 );
 	progressBarGlowSprite.setTotalFrames( 25 );
@@ -32660,30 +32683,36 @@ void LoadLevelData()
 	scoreScreenSprite.setImage( scoreScreenImage );
 	scoreScreenSprite.setUWidth( 480 );
 	scoreScreenSprite.setUHeight( 320 );
-	scoreScreenSprite.setSize( 480, 320 );
+	//scoreScreenSprite.setSize( 480, 320 );
+	scoreScreenSprite.setSize( width, height );
 	scoreScreenSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 
 	pausedBackgroundImage = Iw2DCreateImage("pausedBackground.png");DisplayLoading();
 	pausedBackgroundSprite.setImage( pausedBackgroundImage );
 	pausedBackgroundSprite.setUWidth( 480 );
 	pausedBackgroundSprite.setUHeight( 320 );
-	pausedBackgroundSprite.setSize( 480, 320 );
+	//pausedBackgroundSprite.setSize( 480, 320 );
+	pausedBackgroundSprite.setSize( width, height );
 	pausedBackgroundSprite.setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 
 	pauseButtonImage = Iw2DCreateImage("pause.png");
 	pauseButtonSprite.setUWidth( 64 );
 	pauseButtonSprite.setUHeight( 64 );
-	pauseButtonSprite.setSize( 50, 50 );
+	//pauseButtonSprite.setSize( 50, 50 );
+	pauseButtonSprite.setSize( width * .104, width * .104 );
 	pauseButtonSprite.setImage( pauseButtonImage );
 	pauseButtonImage_pressed = Iw2DCreateImage("pause_pressed.png");DisplayLoading();
 	pauseButtonSprite_pressed.setUWidth( 64 );
 	pauseButtonSprite_pressed.setUHeight( 64 );
-	pauseButtonSprite_pressed.setSize( 50, 50 );
+	//pauseButtonSprite_pressed.setSize( 50, 50 );
+	pauseButtonSprite_pressed.setSize( width * .104, width * .104 );
 	pauseButtonSprite_pressed.setImage( pauseButtonImage_pressed );
-	pauseButton.setTouchSize( 64, 64 );
+	//pauseButton.setTouchSize( 64, 64 );
+	pauseButton.setTouchSize( width * .133, width * .133 );
 	pauseButton.setUnpressedSprite( pauseButtonSprite );
 	pauseButton.setPressedSprite( pauseButtonSprite_pressed );	
 
+	// here screen resolution continue here also
 	resumeButtonImage = Iw2DCreateImage("resume.png");DisplayLoading();
 	resumeButtonSprite.setUWidth( 128 );
 	resumeButtonSprite.setUHeight( 128 );

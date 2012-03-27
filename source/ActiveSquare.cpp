@@ -196,13 +196,15 @@ void ActiveSquare::Render()
 
 	if( activated )
 	{
-		// draw square
-		Iw2DDrawImageRegion( image, CIwSVec2( x - width/2, y - height/2 ), CIwSVec2( width, height ), CIwSVec2(0, 0), CIwSVec2(image->GetHeight(), image->GetWidth() ) );
+		// draw square. The Image Size, width * .052 is based off a 25 pixel size on a 480 width resolution screen
+		//Iw2DDrawImageRegion( image, CIwSVec2( x - width/2, y - height/2 ), CIwSVec2( width, height ), CIwSVec2(0, 0), CIwSVec2(image->GetHeight(), image->GetWidth() ) );
+		Iw2DDrawImageRegion( image, CIwSVec2( x - width/2, y - height/2 ), CIwSVec2( IwGxGetScreenWidth() * .052, IwGxGetScreenWidth() * .052 ), CIwSVec2(0, 0), CIwSVec2(image->GetHeight(), image->GetWidth() ) );
 	}
 	else
 	{
-		// draw blank square
-		Iw2DDrawImageRegion( blankImage, CIwSVec2( x - width/2, y - height/2 ), CIwSVec2( width, height ), CIwSVec2(0, 0), CIwSVec2(image->GetHeight(), image->GetWidth() ) );
+		// draw blank square. The Image Size, width * .052 is based off a 25 pixel size on a 480 width resolution screen
+		//Iw2DDrawImageRegion( blankImage, CIwSVec2( x - width/2, y - height/2 ), CIwSVec2( width, height ), CIwSVec2(0, 0), CIwSVec2(image->GetHeight(), image->GetWidth() ) );
+		Iw2DDrawImageRegion( blankImage, CIwSVec2( x - width/2, y - height/2 ), CIwSVec2( IwGxGetScreenWidth() * .052, IwGxGetScreenWidth() * .052 ), CIwSVec2(0, 0), CIwSVec2(image->GetHeight(), image->GetWidth() ) );
 	}
 
 	// reset color
