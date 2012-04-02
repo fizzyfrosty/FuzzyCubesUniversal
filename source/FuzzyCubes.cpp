@@ -1760,7 +1760,7 @@ CIw2DImage *titleImage;
 Sprite titleSprite;
 
 // developer variables
-bool musicOn = true;
+bool musicOn = false;
 
 SaveFile saveFile;
 string savedData;
@@ -2836,7 +2836,7 @@ int16 rotateSensitivityMultiplier = 9; // the rotation sensitivity
 //double zoomAcceleration;
 double zoomSensitivityMultiplier = (float)s / 15; // reduces zoom sensitivity/zoom distance by factor of the denominator/10 if cubes are 10 big
 int16 zoomOutLimit = 12 * s; // the zoom limit is a positive value, represents the multiple of the size of a cube
-int16 zoomInLimit = 6 * s; // the zoom limit is a positive value, represents the multiple of the size of a cube // last value was 3
+int16 zoomInLimit = 1 * s; // the zoom limit is a positive value, represents the multiple of the size of a cube // last value was 3
 double zoomSensitivityMax = (float)s / 50; // upper and lower limit of zoom sensitivity original was 30
 double zoomSensitivityMin = (float)s / 70;  // original was 80 I think
 double zoomSensitivityDelta = (zoomSensitivityMax - zoomSensitivityMin) / float(zoomOutLimit - zoomInLimit);
@@ -6568,7 +6568,13 @@ void Init()
 	IwGxSetColClear(0, 0, 0, 255);
 	// Set field of view
 	//IwGxSetPerspMul(0xa0);
-	IwGxSetPerspMul(0xf0);
+	// resolution based
+	// here
+	/*
+	For phone devices, keep cameradepth but scale the z-depth of frustrum
+	For iPad, scale the cameradepth but not the zdepth?? Need to test.
+	*/
+	IwGxSetPerspMul(0x200);
 	
 	// Set near and far planes
 	//IwGxSetFarZNearZ(0x400, 0x10);
@@ -8376,14 +8382,14 @@ bool Update()
 			}
 			if( highestLL >= 3 ) // if hits level 3 but cubes are not warping, zoom out. must be greater than or equal b/c can be 4 when stacked with another cube before warping
 			{
+				//if( cameraDepth > -s * (-1.0 * height / 224 + 73 / 7.0) )
 				if( cameraDepth > -s * 9 )
 				{
 					cameraDepth += -s/10; // s/10 is the rate/increment at which the camera is zooming out
 
-					if( cameraDepth <= -s * 9 ) // if the camera depth is zoomed in closer than this min depth, zoom out to here
+					if( cameraDepth <= -s * 9 ) ) // if the camera depth is zoomed in closer than this min depth, zoom out to here
 					{
 						cameraDepth = -s * 9; // clamps the max zoom-out
-					
 					}
 
 					// need this to not affect zooming with pinching
@@ -8391,8 +8397,10 @@ bool Update()
 				}
 				zoomDownCheck = true; // enables checking for zooming down if level 3 gets depleted.
 			}
-			else if( zoomDownCheck == true )
+			else if( zoomDownCheck == true ) 
 			{
+
+				//if( cameraDepth <= -s * (-1.0 * height / 300 + 59 / 7.0) )
 				if( cameraDepth <= -s * 7 )
 				{
 					cameraDepth -= -s/10; // s/10 is the rate/increment at which the camera is zooming in
@@ -8799,7 +8807,8 @@ bool Update()
 						int y;	
 						// convert 3d to 2d coordinates						
 						IwGxWorldToScreenXY( x, y, modelMatrix1.TransformVec( (CIwVec3)cubeArrayMoving[0].shadow->position ) );
-						tutorialSprites[i].setPosition( x - 60, y - 60 );
+						//tutorialSprites[i].setPosition( x - 60, y - 60 );
+						tutorialSprites[i].setPosition( x - width * .125, y - width * .125 );
 					}
 					break;
 				case 1: // tap to drop
@@ -8809,23 +8818,29 @@ bool Update()
 						int y;
 						// convert 3d to 2d coordinates
 						IwGxWorldToScreenXY( x, y, modelMatrix1.TransformVec( (CIwVec3)cubeArrayMoving[0].shadow->position ) );
-						tutorialSprites[i].setPosition( x - 60, y );
+						//tutorialSprites[i].setPosition( x - 60, y );
+						tutorialSprites[i].setPosition( x - width * .125, y );
 					}
 					break;
 				case 2: // Complete the Side
+					//tutorialSprites[i].setPosition( 170, 75 );
 					tutorialSprites[i].setPosition( 170, 75 );
 					break;
 				case 3: // Rotate
+					//tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 					tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 					break;
 				case 4: // shift sides
+					//tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 					tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
 					break;
 				case 5: // drag space
-					tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - 25 );
+					//tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - 25 );
+					tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - height * .078 );
 					break;
 				case 6: // Perfect Clear
-					tutorialSprites[i].setPosition( 135, 50 );
+					//tutorialSprites[i].setPosition( 135, 50 );
+					tutorialSprites[i].setPosition( width * .281, height * .156 );
 					break;
 				case 7: // defuse the bomb
 					if( showTutorialSprites[7] == true )
@@ -8838,7 +8853,8 @@ bool Update()
 								int y;
 								// convert 3d to 2d coordinates
 								IwGxWorldToScreenXY( x, y, modelMatrix1.TransformVec( (CIwVec3)cubeArray[j].position ) );
-								tutorialSprites[i].setPosition( x - 50, y - 50 );
+								//tutorialSprites[i].setPosition( x - 50, y - 50 );
+								tutorialSprites[i].setPosition( x - width * .104, y - width * .104 );
 								break;
 							}			
 						}
@@ -8855,14 +8871,16 @@ bool Update()
 								int y;
 								// convert 3d to 2d coordinates
 								IwGxWorldToScreenXY( x, y, modelMatrix1.TransformVec( (CIwVec3)cubeArray[j].position ) );
-								tutorialSprites[i].setPosition( x - 50, y - 50 );
+								//tutorialSprites[i].setPosition( x - 50, y - 50 );
+								tutorialSprites[i].setPosition( x - width * .104, y - width * .104 );
 								break;
 							}			
 						}
 					}
 					break;
 				case 9: // do not die
-					tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - 25 );
+					//tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - 25 );
+					tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - height * .078 );
 					break;
 				case 10: // match colors
 					tutorialSprites[i].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 );
@@ -15506,9 +15524,10 @@ void Move( Cube* cube, int16 index )
 
 void MoveShadows( int16 dx, int16 dy )
 {
-	int16 dxPerUnit = 30;
-	int16 dyPerUnit = 30;
-
+	//int16 dxPerUnit = 30;
+	//int16 dyPerUnit = 30;
+	int16 dxPerUnit = 15.0 / 244 * height + 60 / 7.0;
+	int16 dyPerUnit = 15.0 / 244 * height + 60 / 7.0;
 	
 	// controls shadow motion sensitivity
 	if( highestLayerLevel < 3 ) // if normal camera
@@ -15519,28 +15538,38 @@ void MoveShadows( int16 dx, int16 dy )
 			switch( layerLevelOnTouch )
 			{
 			case 0:
-				dxPerUnit = 30;
-				dyPerUnit = 30;
+				//dxPerUnit = 30;
+				//dyPerUnit = 30;
+				dxPerUnit = 15.0 / 244 * height + 60 / 7.0;
+				dyPerUnit = 15.0 / 244 * height + 60 / 7.0;
 				break;
 			case 1:
-				dxPerUnit = 40;
-				dyPerUnit = 40;
+				//dxPerUnit = 40;
+				//dyPerUnit = 40;
+				dxPerUnit = 25.0 / 244 * height + 30 / 7.0;
+				dyPerUnit = 25.0 / 244 * height + 30 / 7.0;
 				break;
 			case 2:
-				dxPerUnit = 50;
-				dyPerUnit = 50;
+				//dxPerUnit = 50;
+				//dyPerUnit = 50;
+				dxPerUnit = 5.0 / 32 * height;
+				dyPerUnit = 5.0 / 32 * height;
 				break;
 			default:
-				dxPerUnit = 30;
-				dyPerUnit = 30;
+				//dxPerUnit = 30;
+				//dyPerUnit = 30;
+				dxPerUnit = 15.0 / 244 * height + 60 / 7.0;
+				dyPerUnit = 15.0 / 244 * height + 60 / 7.0;
 				break;
 			}
 		}
 	}
 	else // if camera is zoomed out and wobbling
 	{
-		dxPerUnit = 30;
-		dyPerUnit = 30;
+		//dxPerUnit = 30;
+		//dyPerUnit = 30;
+		dxPerUnit = 15.0 / 244 * height + 60 / 7.0;
+		dyPerUnit = 15.0 / 244 * height + 60 / 7.0;
 	}
 
 	int16 xUnitsToMove = dx / dxPerUnit; // the number of units to try to move based on delta X drag
@@ -19437,8 +19466,7 @@ void ReleaseScoreScreenButtons()
 	if( restartButton.pressed == true && limbo == false  )
 	{
 		if( storyMode == true )
-		{
-			// here
+		{			
 			// new restart method, should save state
 			// load levels
 			storyMode = true;
@@ -19637,8 +19665,7 @@ void ReleasePausedButtons()
 		//raiseVolume();
 
 		if( storyMode == true )
-		{
-			// here
+		{			
 			// new restart method, should save state
 			// load levels
 			storyMode = true;
@@ -29190,8 +29217,9 @@ void RotateActiveShadows()
 
 void InitializeMenu()
 {
-	cameraDepth = -s * ((-1.0 * width) / 272 + 268 / 17.0);
-	//cameraDepth = -s * 14;
+	//cameraDepth = -s * ((-1.0 * width) / 272 + 268 / 17.0);
+	// here
+	cameraDepth = -s * 14;
 
 	qfiMode = false;
 	challengeMode = false;
@@ -30055,9 +30083,12 @@ void InitializeDifficulty( int16 d )
 			}*/ // end of switch statement
 		} // end of for loop
 	} // end of if-challenge mode
-
-
-	cameraDepth = -s * 7;// - s/2;
+		
+	// this is formula for zoom depth when depth = s*7 at height = 320, and depth = s*5 at height = 768
+	// set camera depth
+	//cameraDepth = -s * (-1.0 * height / 300 + 59 / 7.0);
+	// here
+	cameraDepth = -s * 7;
 	
 
 	// floating object initialization
@@ -32712,130 +32743,156 @@ void LoadLevelData()
 	pauseButton.setUnpressedSprite( pauseButtonSprite );
 	pauseButton.setPressedSprite( pauseButtonSprite_pressed );	
 
-	// here screen resolution continue here also
 	resumeButtonImage = Iw2DCreateImage("resume.png");DisplayLoading();
 	resumeButtonSprite.setUWidth( 128 );
 	resumeButtonSprite.setUHeight( 128 );
-	resumeButtonSprite.setSize( 128, 128 );
+	//resumeButtonSprite.setSize( 128, 128 );
+	resumeButtonSprite.setSize( width * .267, width * .267 );
 	resumeButtonSprite.setImage( resumeButtonImage );
 	resumeButtonImage_pressed = Iw2DCreateImage("resume_pressed.png");
 	resumeButtonSprite_pressed.setUWidth( 128 );
 	resumeButtonSprite_pressed.setUHeight( 128 );
-	resumeButtonSprite_pressed.setSize( 128, 128 );
+	//resumeButtonSprite_pressed.setSize( 128, 128 );
+	resumeButtonSprite_pressed.setSize( width * .267, width * .267 );
 	resumeButtonSprite_pressed.setImage( resumeButtonImage_pressed );
-	resumeButton.setTouchSize( 128, 128 );
+	//resumeButton.setTouchSize( 128, 128 );
+	resumeButton.setTouchSize( width * .267, width * .267 );
 	resumeButton.setUnpressedSprite( resumeButtonSprite );
 	resumeButton.setPressedSprite( resumeButtonSprite_pressed );	
 
 	quitButtonImage = Iw2DCreateImage("quit.png");DisplayLoading();
 	quitButtonSprite.setUWidth( 128 );
 	quitButtonSprite.setUHeight( 128 );
-	quitButtonSprite.setSize( 128, 128 );
+	//quitButtonSprite.setSize( 128, 128 );
+	quitButtonSprite.setSize( width * .267, width * .267 );
 	quitButtonSprite.setImage( quitButtonImage );
 	quitButtonImage_pressed = Iw2DCreateImage("quit_pressed.png");
 	quitButtonSprite_pressed.setUWidth( 128 );
 	quitButtonSprite_pressed.setUHeight( 128 );
-	quitButtonSprite_pressed.setSize( 128, 128 );
+	//quitButtonSprite_pressed.setSize( 128, 128 );
+	quitButtonSprite_pressed.setSize( width * .267, width * .267 );
 	quitButtonSprite_pressed.setImage( quitButtonImage_pressed );
-	quitButton.setTouchSize( 128, 128 );
+	//quitButton.setTouchSize( 128, 128 );
+	quitButton.setTouchSize( width * .267, width * .267 );
 	quitButton.setUnpressedSprite( quitButtonSprite );
 	quitButton.setPressedSprite( quitButtonSprite_pressed );	
 
 	restartButtonImage = Iw2DCreateImage("restart.png");DisplayLoading();
 	restartButtonSprite.setUWidth( 128 );
 	restartButtonSprite.setUHeight( 128 );
-	restartButtonSprite.setSize( 128, 128 );
+	//restartButtonSprite.setSize( 128, 128 );
+	restartButtonSprite.setSize( width * .267, width * .267 );
 	restartButtonSprite.setImage( restartButtonImage );
 	restartButtonImage_pressed = Iw2DCreateImage("restart_pressed.png");
 	restartButtonSprite_pressed.setUWidth( 128 );
 	restartButtonSprite_pressed.setUHeight( 128 );
-	restartButtonSprite_pressed.setSize( 128, 128 );
+	//restartButtonSprite_pressed.setSize( 128, 128 );
+	restartButtonSprite_pressed.setSize( width * .267, width * .267 );
 	restartButtonSprite_pressed.setImage( restartButtonImage_pressed );
-	restartButton.setTouchSize( 128, 128 );
+	//restartButton.setTouchSize( 128, 128 );
+	restartButton.setTouchSize( width * .267, width * .267 );
 	restartButton.setUnpressedSprite( restartButtonSprite );
 	restartButton.setPressedSprite( restartButtonSprite_pressed );	
 
 	nextButtonImage = Iw2DCreateImage("next.png");DisplayLoading();
 	nextButtonSprite.setUWidth( 128 );
 	nextButtonSprite.setUHeight( 128 );
-	nextButtonSprite.setSize( 128, 128 );
+	//nextButtonSprite.setSize( 128, 128 );
+	nextButtonSprite.setSize( width * .267, width * .267 );
 	nextButtonSprite.setImage( nextButtonImage );
 	nextButtonImage_pressed = Iw2DCreateImage("next_pressed.png");
 	nextButtonSprite_pressed.setUWidth( 128 );
 	nextButtonSprite_pressed.setUHeight( 128 );
-	nextButtonSprite_pressed.setSize( 128, 128 );
+	//nextButtonSprite_pressed.setSize( 128, 128 );
+	nextButtonSprite_pressed.setSize( width * .267, width * .267 );
 	nextButtonSprite_pressed.setImage( nextButtonImage_pressed );
-	nextButton.setTouchSize( 128, 128 );
+	//nextButton.setTouchSize( 128, 128 );
+	nextButton.setTouchSize( width * .267, width * .267 );
 	nextButton.setUnpressedSprite( nextButtonSprite );
 	nextButton.setPressedSprite( nextButtonSprite_pressed );
 
 	rotateButtonImage = Iw2DCreateImage("rotate.png");DisplayLoading();
 	rotateButtonSprite.setUWidth( 64 );
 	rotateButtonSprite.setUHeight( 64 );
-	rotateButtonSprite.setSize( 64, 64 );
+	//rotateButtonSprite.setSize( 64, 64 );
+	rotateButtonSprite.setSize( width * .133, width * .133 );
 	rotateButtonSprite.setImage( rotateButtonImage );
 	rotateButtonImage_pressed = Iw2DCreateImage("rotate_pressed.png");
 	rotateButtonSprite_pressed.setUWidth( 64 );
 	rotateButtonSprite_pressed.setUHeight( 64 );
-	rotateButtonSprite_pressed.setSize( 64, 64 );
+	//rotateButtonSprite_pressed.setSize( 64, 64 );
+	rotateButtonSprite_pressed.setSize( width * .133, width * .133 );
 	rotateButtonSprite_pressed.setImage( rotateButtonImage_pressed );
-	rotateButton.setTouchSize( 64, 64 );
+	//rotateButton.setTouchSize( 64, 64 );
+	rotateButton.setTouchSize( width * .133, width * .133 );
 	rotateButton.setUnpressedSprite( rotateButtonSprite );
 	rotateButton.setPressedSprite( rotateButtonSprite_pressed );	
 
 	rightButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
 	rightButtonSprite.setUWidth( 50 );
 	rightButtonSprite.setUHeight( 50 );
-	rightButtonSprite.setSize( 50, 50 );
+	//rightButtonSprite.setSize( 50, 50 );
+	rightButtonSprite.setSize( width * .104, width * .104 );
 	rightButtonSprite.setImage( rightButtonImage );
 	rightButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
 	rightButtonSprite_pressed.setUWidth( 50 );
 	rightButtonSprite_pressed.setUHeight( 50 );
-	rightButtonSprite_pressed.setSize( 50, 50 );
+	//rightButtonSprite_pressed.setSize( 50, 50 );
+	rightButtonSprite_pressed.setSize( width * .104, width * .104 );
 	rightButtonSprite_pressed.setImage( rightButtonImage_pressed );
-	rightButton.setTouchSize( 50, 50 );
+	//rightButton.setTouchSize( 50, 50 );
+	rightButton.setTouchSize( width * .104, width * .104 );
 	rightButton.setUnpressedSprite( rightButtonSprite );
 	rightButton.setPressedSprite( rightButtonSprite_pressed );	
 
 	leftButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
 	leftButtonSprite.setUWidth( 50 );
 	leftButtonSprite.setUHeight( 50 );
-	leftButtonSprite.setSize( 50, 50 );
+	//leftButtonSprite.setSize( 50, 50 );
+	leftButtonSprite.setSize( width * .104, width * .104 );
 	leftButtonSprite.setImage( leftButtonImage );
 	leftButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
 	leftButtonSprite_pressed.setUWidth( 50 );
 	leftButtonSprite_pressed.setUHeight( 50 );
-	leftButtonSprite_pressed.setSize( 50, 50 );
+	//leftButtonSprite_pressed.setSize( 50, 50 );
+	leftButtonSprite_pressed.setSize( width * .104, width * .104 );
 	leftButtonSprite_pressed.setImage( leftButtonImage_pressed );
-	leftButton.setTouchSize( 50, 50 );
+	//leftButton.setTouchSize( 50, 50 );
+	leftButton.setTouchSize( width * .104, width * .104 );
 	leftButton.setUnpressedSprite( leftButtonSprite );
 	leftButton.setPressedSprite( leftButtonSprite_pressed );	
 
 	upButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
 	upButtonSprite.setUWidth( 50 );
 	upButtonSprite.setUHeight( 50 );
-	upButtonSprite.setSize( 50, 50 );
+	//upButtonSprite.setSize( 50, 50 );
+	upButtonSprite.setSize( width * .104, width * .104 );
 	upButtonSprite.setImage( upButtonImage );
 	upButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
 	upButtonSprite_pressed.setUWidth( 50 );
 	upButtonSprite_pressed.setUHeight( 50 );
-	upButtonSprite_pressed.setSize( 50, 50 );
+	//upButtonSprite_pressed.setSize( 50, 50 );
+	upButtonSprite_pressed.setSize( width * .104, width * .104 );
 	upButtonSprite_pressed.setImage( upButtonImage_pressed );
-	upButton.setTouchSize( 50, 50 );
+	//upButton.setTouchSize( 50, 50 );
+	upButton.setTouchSize( width * .104, width * .104 );
 	upButton.setUnpressedSprite( upButtonSprite );
 	upButton.setPressedSprite( upButtonSprite_pressed );	
 
 	downButtonImage = Iw2DCreateImage("FuzzyControlButton.png");DisplayLoading();
 	downButtonSprite.setUWidth( 50 );
 	downButtonSprite.setUHeight( 50 );
-	downButtonSprite.setSize( 50, 50 );
+	//downButtonSprite.setSize( 50, 50 );
+	downButtonSprite.setSize( width * .104, width * .104 );
 	downButtonSprite.setImage( downButtonImage );
 	downButtonImage_pressed = Iw2DCreateImage("FuzzyControlButton2.png");
 	downButtonSprite_pressed.setUWidth( 50 );
 	downButtonSprite_pressed.setUHeight( 50 );
-	downButtonSprite_pressed.setSize( 50, 50 );
+	//downButtonSprite_pressed.setSize( 50, 50 );
+	downButtonSprite_pressed.setSize( width * .104, width * .104 );
 	downButtonSprite_pressed.setImage( downButtonImage_pressed );
-	downButton.setTouchSize( 50, 50 );
+	//downButton.setTouchSize( 50, 50 );
+	downButton.setTouchSize( width * .104, width * .104 );
 	downButton.setUnpressedSprite( downButtonSprite );
 	downButton.setPressedSprite( downButtonSprite_pressed );	
 
