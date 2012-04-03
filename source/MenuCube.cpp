@@ -694,7 +694,10 @@ void MenuCube::Terminate()
 
 void MenuCube::grabAndSetSwipe( int16 dx )
 {
-	deltaX = (double)dx * PI / 540; // this controls sensitivity
+
+	int16 swipePixelsConverted = dx * 480.0/IwGxGetScreenWidth();
+	//deltaX = (double)dx * PI / 540; // this controls sensitivity
+	deltaX = (double)swipePixelsConverted * PI / 540; // this controls sensitivity
 	beingSwiped = true;
 	lockedInPlace = false;
 }

@@ -25,8 +25,13 @@ void ActiveSquare::Initialize( int16 t )
 	x = 0;
 	y = 0;
 
-	width = 25;
-	height = 25;
+	//width = 25;
+	//height = 25;
+	width = IwGxGetScreenWidth() * .052;
+	height = IwGxGetScreenWidth() * .052;
+	float spacingIndex = 1;
+	int xDisplacement = IwGxGetScreenWidth()*.365;
+
 	red = 0;
 	blue = 0;
 	green = 0;
@@ -37,42 +42,48 @@ void ActiveSquare::Initialize( int16 t )
 	// set the coordinates and color/image
 	if( type == BLUE )
 	{
-		x = IwGxGetScreenWidth() - 175 + width;
+		//x = IwGxGetScreenWidth() - 175 + width;
+		x = IwGxGetScreenWidth() - xDisplacement + width*spacingIndex;
 		y = 0 + height;
 
 		image = Iw2DCreateImage( "blueSquare.png" );
 	}
 	if( type == RED )
 	{
-		x = IwGxGetScreenWidth() - 175 + width*2;
+		//x = IwGxGetScreenWidth() - 175 + width*2;
+		x = IwGxGetScreenWidth() - xDisplacement + width*2*spacingIndex;
 		y = 0 + height;
 
 		image = Iw2DCreateImage( "redSquare.png" );
 	}
 	if( type == PURPLE )
 	{
-		x = IwGxGetScreenWidth() - 175 + width*3;
+		//x = IwGxGetScreenWidth() - 175 + width*3;
+		x = IwGxGetScreenWidth() - xDisplacement + width*3*spacingIndex;
 		y = 0 + height;
 
 		image = Iw2DCreateImage( "purpleSquare.png" );
 	}
 	if( type == ORANGE )
 	{
-		x = IwGxGetScreenWidth() - 175 + width*4;
+		//x = IwGxGetScreenWidth() - 175 + width*4;
+		x = IwGxGetScreenWidth() - xDisplacement + width*4*spacingIndex;
 		y = 0 + height;
 
 		image = Iw2DCreateImage( "orangeSquare.png" );
 	}
 	if( type == GREEN )
 	{
-		x = IwGxGetScreenWidth() - 175 + width*5;
+		//x = IwGxGetScreenWidth() - 175 + width*5;
+		x = IwGxGetScreenWidth() - xDisplacement + width*5*spacingIndex;
 		y = 0 + height;
 
 		image = Iw2DCreateImage( "greenSquare.png" );
 	}
 	if( type == YELLOW )
 	{
-		x = IwGxGetScreenWidth() - 175 + width*6;
+		//x = IwGxGetScreenWidth() - 175 + width*6;
+		x = IwGxGetScreenWidth() - xDisplacement + width*6*spacingIndex;
 		y = 0 + height;
 
 		image = Iw2DCreateImage( "yellowSquare.png" );

@@ -5708,8 +5708,14 @@ void MultiTouchMotion( s3ePointerTouchMotionEvent* event )
 			deltaX1 = x1 - event->m_x;
 			deltaY1 = y1 - event->m_y;
 
-			worldX = (savedX + -1* deltaX1 * reversedIndex) * rotateSensitivityMultiplier;
-			worldY = (savedY + deltaY1) * rotateSensitivityMultiplier;
+			int16 rotatePixelsConvertedX = deltaX1 * 480.0/width;
+			int16 rotatePixelsConvertedY = deltaY1 * 320.0/height;
+
+			//worldX = (savedX + -1* deltaX1 * reversedIndex) * rotateSensitivityMultiplier;
+			//worldY = (savedY + deltaY1) * rotateSensitivityMultiplier;
+			
+			worldX = (savedX + -1* rotatePixelsConvertedX * reversedIndex) * rotateSensitivityMultiplier;
+			worldY = (savedY + rotatePixelsConvertedY) * rotateSensitivityMultiplier;
 		}
 		else // placing the direction re-alignment here ensures correct direction if stopping rotation with second touch
 		{
@@ -6150,8 +6156,14 @@ void SingleTouchMotion( s3ePointerMotionEvent* event )
 			{
 				// reversedIndex accounts for the y-axis rotation direction 
 				// if x-axis rotation goes beyond top/bottom limit
-				worldX = (savedX + -1* deltaX1 * reversedIndex) * rotateSensitivityMultiplier; // 6 multiplies the sensitivity of rotation
-				worldY = (savedY + deltaY1) * rotateSensitivityMultiplier;
+				int16 rotatePixelsConvertedX = deltaX1 * 480.0/width;
+				int16 rotatePixelsConvertedY = deltaY1 * 320.0/height;
+
+				//worldX = (savedX + -1* deltaX1 * reversedIndex) * rotateSensitivityMultiplier; // 6 multiplies the sensitivity of rotation
+				//worldY = (savedY + deltaY1) * rotateSensitivityMultiplier;
+
+				worldX = (savedX + -1* rotatePixelsConvertedX * reversedIndex) * rotateSensitivityMultiplier; // 6 multiplies the sensitivity of rotation
+				worldY = (savedY + rotatePixelsConvertedY) * rotateSensitivityMultiplier;
 
 			} // end of rotate enabled
 
@@ -6573,8 +6585,9 @@ void Init()
 	/*
 	For phone devices, keep cameradepth but scale the z-depth of frustrum
 	For iPad, scale the cameradepth but not the zdepth?? Need to test.
+	The values are based on: 320 res height -> 0xf0=240, 768 res height -> 0x200=512
 	*/
-	IwGxSetPerspMul(0x200);
+	IwGxSetPerspMul( 17.0/28 * height + 320.0/7 );
 	
 	// Set near and far planes
 	//IwGxSetFarZNearZ(0x400, 0x10);
@@ -8387,7 +8400,7 @@ bool Update()
 				{
 					cameraDepth += -s/10; // s/10 is the rate/increment at which the camera is zooming out
 
-					if( cameraDepth <= -s * 9 ) ) // if the camera depth is zoomed in closer than this min depth, zoom out to here
+					if( cameraDepth <= -s * 9  ) // if the camera depth is zoomed in closer than this min depth, zoom out to here
 					{
 						cameraDepth = -s * 9; // clamps the max zoom-out
 					}
@@ -8429,21 +8442,35 @@ bool Update()
 		{
 			if( advanceToNextLevel == true )
 			{
-				restartButton.setLocation( IwGxGetScreenWidth()/2 - IwGxGetScreenWidth()/4, IwGxGetScreenHeight()/2 + 120);
-				nextButton.setLocation( IwGxGetScreenWidth()/2 + IwGxGetScreenWidth()/4, IwGxGetScreenHeight()/2 + 120);
-				quitButton.setLocation( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 + 120 );
+				//restartButton.setLocation( IwGxGetScreenWidth()/2 - IwGxGetScreenWidth()/4, IwGxGetScreenHeight()/2 + 120);
+				//nextButton.setLocation( IwGxGetScreenWidth()/2 + IwGxGetScreenWidth()/4, IwGxGetScreenHeight()/2 + 120);
+				//quitButton.setLocation( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 + 120 );
 
-				restartButton.setRenderSize( 100, 100 );
-				quitButton.setRenderSize( 100, 100 );
-				nextButton.setRenderSize( 100, 100 );
+				//restartButton.setRenderSize( 100, 100 );
+				//quitButton.setRenderSize( 100, 100 );
+				//nextButton.setRenderSize( 100, 100 );
+
+				restartButton.setLocation( IwGxGetScreenWidth()/2 - IwGxGetScreenWidth()/4, IwGxGetScreenHeight()/2 + height * .375);
+				nextButton.setLocation( IwGxGetScreenWidth()/2 + IwGxGetScreenWidth()/4, IwGxGetScreenHeight()/2 + height * .375);
+				quitButton.setLocation( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 + height * .375 );
+
+				restartButton.setRenderSize( width * .208, width * .208 );
+				quitButton.setRenderSize( width * .208, width * .208 );
+				nextButton.setRenderSize( width * .208, width * .208 );
 			}
 			else if( advanceToNextLevel == false ) // positions with ONLY restart & quit for game over in story
 			{
-				restartButton.setLocation( IwGxGetScreenWidth()/2 - 50, IwGxGetScreenHeight()/2 + 120 );
-				quitButton.setLocation( IwGxGetScreenWidth()/2 + IwGxGetScreenWidth()/4 - 50, IwGxGetScreenHeight()/2 + 120);
+				//restartButton.setLocation( IwGxGetScreenWidth()/2 - 50, IwGxGetScreenHeight()/2 + 120 );
+				//quitButton.setLocation( IwGxGetScreenWidth()/2 + IwGxGetScreenWidth()/4 - 50, IwGxGetScreenHeight()/2 + 120);
 
-				restartButton.setRenderSize( 100, 100 );
-				quitButton.setRenderSize( 100, 100 );
+				//restartButton.setRenderSize( 100, 100 );
+				//quitButton.setRenderSize( 100, 100 );
+
+				restartButton.setLocation( IwGxGetScreenWidth()/2 - width*.104, IwGxGetScreenHeight()/2 + height * .375 );
+				quitButton.setLocation( IwGxGetScreenWidth()/2 + IwGxGetScreenWidth()/4 - width*.104, IwGxGetScreenHeight()/2 + height * .375);
+
+				restartButton.setRenderSize( width * .208, width * .208 );
+				quitButton.setRenderSize( width * .208, width * .208 );
 			}
 
 			if( gameOver == true )
@@ -8582,8 +8609,8 @@ bool Update()
 			{
 				//progressBarFuzzySprite.setImage( spacebusImage );
 			}
-			int16 rectWidth = 110;
-			int16 rectHeight = 20;
+			int16 rectWidth = width * .229;
+			int16 rectHeight = height * 0.063;
 			int16 fillWidth = (int16)(percentComplete * rectWidth);
 			progressBarSprite.setSize( fillWidth, rectHeight );
 			progressBarSprite.setPosition( 10 + fillWidth/2, 40 + rectHeight/2 );
