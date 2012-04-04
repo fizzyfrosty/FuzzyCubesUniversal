@@ -8579,8 +8579,11 @@ bool Update()
 			restartButton.setLocation( IwGxGetScreenWidth()/2 - IwGxGetScreenWidth()/4, IwGxGetScreenHeight()/2 );
 
 			// these sizes are smaller in score screen
-			restartButton.setRenderSize( 128, 128 );
-			quitButton.setRenderSize( 128, 128 );
+			//restartButton.setRenderSize( 128, 128 );
+			//quitButton.setRenderSize( 128, 128 );
+
+			restartButton.setRenderSize( width*.267, width*.267 );
+			quitButton.setRenderSize( width*.267, width*.267 );
 		}
 		else if( atTutorial == true )
 		{
@@ -8594,7 +8597,8 @@ bool Update()
 	if( GameState == PLAY_GAME || GameState == PLAY_TUTORIAL)
 	{
 		// update Level Bar 
-		progressBarFrameSprite.setPosition( 10 + 110/2, 40 + 20/2 );
+		//progressBarFrameSprite.setPosition( 10 + 110/2, 40 + 20/2 );
+		progressBarFrameSprite.setPosition( width * .135, height * .156 );
 
 		if( storyMode == true )
 		{
@@ -8613,9 +8617,13 @@ bool Update()
 			int16 rectHeight = height * 0.063;
 			int16 fillWidth = (int16)(percentComplete * rectWidth);
 			progressBarSprite.setSize( fillWidth, rectHeight );
-			progressBarSprite.setPosition( 10 + fillWidth/2, 40 + rectHeight/2 );
-			progressBarFuzzySprite.setPosition( 10 + fillWidth, 40 + rectHeight/2 - 4 );
-			progressBarGlowSprite.setPosition( 10 + fillWidth, 40 + rectHeight/2 );
+			//progressBarSprite.setPosition( 10 + fillWidth/2, 40 + rectHeight/2 );
+			//progressBarFuzzySprite.setPosition( 10 + fillWidth, 40 + rectHeight/2 - 4 );
+			//progressBarGlowSprite.setPosition( 10 + fillWidth, 40 + rectHeight/2 );
+
+			progressBarSprite.setPosition( width*.021 + fillWidth/2, height*.125 + rectHeight/2 );
+			progressBarFuzzySprite.setPosition( width*.021 + fillWidth, height*.125 + rectHeight/2 - 4 );
+			progressBarGlowSprite.setPosition( width*.021 + fillWidth, height*.125 + rectHeight/2 );
 
 			// show tutorial messages
 			if( episode == 1 )
@@ -9113,22 +9121,33 @@ bool Update()
 		}
 
 		// Update Congrats Sprites
-		congratsSpriteGreat.setPosition( IwGxGetScreenWidth()/2 + 15, 0 + IwGxGetScreenHeight()/2 - 15 );
-		//congratsSpriteGreat.setPosition( IwGxGetScreenWidth()/2 + 15, 0 + IwGxGetScreenHeight()/2 );
-		congratsSpriteNice.setPosition( IwGxGetScreenWidth()/2 + 15, 0 + IwGxGetScreenHeight()/2 );
-		congratsSpriteComplete.setPosition( IwGxGetScreenWidth()/2 + 15, 0 + IwGxGetScreenHeight()/2 );
-		congratsSpriteSuper.setPosition( IwGxGetScreenWidth()/2 + 15, 0 + IwGxGetScreenHeight()/2 );
+		//congratsSpriteGreat.setPosition( IwGxGetScreenWidth()/2 + 15, 0 + IwGxGetScreenHeight()/2 - 15 );		
+		//congratsSpriteNice.setPosition( IwGxGetScreenWidth()/2 + 15, 0 + IwGxGetScreenHeight()/2 );
+		//congratsSpriteComplete.setPosition( IwGxGetScreenWidth()/2 + 15, 0 + IwGxGetScreenHeight()/2 );
+		//congratsSpriteSuper.setPosition( IwGxGetScreenWidth()/2 + 15, 0 + IwGxGetScreenHeight()/2 );
+
+		congratsSpriteGreat.setPosition( IwGxGetScreenWidth()/2 + width*.031, 0 + IwGxGetScreenHeight()/2 - height*.047 );		
+		congratsSpriteNice.setPosition( IwGxGetScreenWidth()/2 +  width*.031, 0 + IwGxGetScreenHeight()/2 );
+		congratsSpriteComplete.setPosition( IwGxGetScreenWidth()/2 +  width*.031, 0 + IwGxGetScreenHeight()/2 );
+		congratsSpriteSuper.setPosition( IwGxGetScreenWidth()/2 +  width*.031, 0 + IwGxGetScreenHeight()/2 );
 
 		// Update BUTTON LOCATIONS
 		// this location for the paused screen
 		testButton.setLocation( IwGxGetScreenWidth() - testButton.hitboxWidth, 0 + testButton.hitboxHeight );
 		
-		pauseButton.setLocation( 0 + 35, IwGxGetScreenHeight() - 35 );
-		rotateButton.setLocation( IwGxGetScreenWidth() - 40, IwGxGetScreenHeight() - 40 );
-		rightButton.setLocation( IwGxGetScreenWidth() - 25, IwGxGetScreenHeight() / 2 );
-		leftButton.setLocation( 0 + 25, IwGxGetScreenHeight() / 2 );
-		upButton.setLocation( IwGxGetScreenWidth() / 2, 0 + 25 );
-		downButton.setLocation( IwGxGetScreenWidth() / 2, IwGxGetScreenHeight() - 25 );
+		//pauseButton.setLocation( 0 + 35, IwGxGetScreenHeight() - 35 );
+		//rotateButton.setLocation( IwGxGetScreenWidth() - 40, IwGxGetScreenHeight() - 40 );
+		//rightButton.setLocation( IwGxGetScreenWidth() - 25, IwGxGetScreenHeight() / 2 );
+		//leftButton.setLocation( 0 + 25, IwGxGetScreenHeight() / 2 );
+		//upButton.setLocation( IwGxGetScreenWidth() / 2, 0 + 25 );
+		//downButton.setLocation( IwGxGetScreenWidth() / 2, IwGxGetScreenHeight() - 25 );
+
+		pauseButton.setLocation( 0 + width*.073, IwGxGetScreenHeight() - height*.109 );
+		rotateButton.setLocation( IwGxGetScreenWidth() - width*.083, IwGxGetScreenHeight() - height*.125 );
+		rightButton.setLocation( IwGxGetScreenWidth() - width*.052, IwGxGetScreenHeight() / 2 );
+		leftButton.setLocation( 0 + width*.052, IwGxGetScreenHeight() / 2 );
+		upButton.setLocation( IwGxGetScreenWidth() / 2, 0 + height*.078 );
+		downButton.setLocation( IwGxGetScreenWidth() / 2, IwGxGetScreenHeight() - height*.078 );
 
 		// Tutorial HUD
 		tutorialTouchDragSprite.setPosition( IwGxGetScreenWidth() - 80, 0 + 55 ); // gets rendered in tutorial mode only. renders over lives left
@@ -9234,7 +9253,9 @@ bool Update()
 			}
 		}
 
-		livesSprite.setPosition( IwGxGetScreenWidth() - 70, 50 );
+		//livesSprite.setPosition( IwGxGetScreenWidth() - 70, 50 );
+		livesSprite.setPosition( IwGxGetScreenWidth() - width*.146, height*.200 );
+
 		// FLOATING OBJECT update. This needs to be updated so that it is doing so in-game. Also need spawning algorithm/method and death alg./method
 		if( testFO.activated == true )
 		{
@@ -11198,7 +11219,8 @@ void Render()
 				IwGxFontSetCol(0xffccffff); // yellow, when setting it's abgr
 
 				//Set the formatting rect - this controls where the text appears and what it is formatted against
-				IwGxFontSetRect( CIwRect( 10, 50, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
+				//IwGxFontSetRect( CIwRect( 10, 50, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
+				IwGxFontSetRect( CIwRect( width*.021, height*.156, (int16)IwGxGetScreenWidth()-width*.021, (int16)IwGxGetScreenHeight()-height*.156) );
 
 				CIwGxFontPreparedData levelData;
 				char levelStr[100] = "Level ";
@@ -11236,7 +11258,7 @@ void Render()
 
 				//Draw the text
 				IwGxFontSetCol(0xffccffff); // yellow, when setting it's abgr
-				IwGxFontSetRect( CIwRect( 10 - 1, 50 - 2, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
+				IwGxFontSetRect( CIwRect( width*.021 - width*.002, height*.156 - height*.006, (int16)IwGxGetScreenWidth()-width*.021, (int16)IwGxGetScreenHeight()-height*.156) );
 				IwGxFontPrepareText( levelData, levelStr);
 				IwGxFontDrawText( levelData );
 
@@ -11271,7 +11293,7 @@ void Render()
 					strcat( ep3TimerStr, ep3TimerString.c_str() ); // converting the string to cstring
 
 					IwGxFontSetFont( ocr20 );
-
+					// here
 					//Draw the shadow
 					IwGxFontSetCol(0xff000000); // orange, when setting it's abgr
 					IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25, 0 + 30, 100, 100 ) );
@@ -15234,7 +15256,7 @@ void Move( Cube* cube, int16 index )
 								// convert 3d to 2d coordinates
 								IwGxWorldToScreenXY( x, y, p );
 
-								pointSprites[i][j].setPosition( x, y - 20 );// set the location
+								pointSprites[i][j].setPosition( x, y - height*.063 );// set the location
 
 								// Efficiency Index - increment scoredDrops
 								scoredDrops++;
@@ -32228,7 +32250,7 @@ void LoadLevelData()
 	bombAlertSprite.setImage( bombAlertImage );
 	bombAlertSprite.setDelayTime( 1 );
 	bombAlertSprite.setTotalFrames( 30 );
-	bombAlertSprite.setPosition( IwGxGetScreenWidth() * 2/3 - 20, 0+50 );
+	bombAlertSprite.setPosition( IwGxGetScreenWidth() * 2/3 - width*.042, 0+height*.156 );
 
 	bombAlertImage_wtf = Iw2DCreateImage( "bomb_alert_wtf2.png" );DisplayLoading();
 
@@ -32296,7 +32318,8 @@ void LoadLevelData()
 	trophySprite.setDelayTime( 1 );
 	trophySprite.setRepeatCount( 1 );
 	trophySprite.setTotalFrames( 32 );
-	trophySprite.setPosition( IwGxGetScreenWidth() - 40, 0 + 100 );
+	//trophySprite.setPosition( IwGxGetScreenWidth() - 40, 0 + 100 );
+	trophySprite.setPosition( IwGxGetScreenWidth() - width*.083, 0 + height*.312 );
 
 	// load plus one fuzzy
 	plusOneFuzzySprite.setUWidth( 128 );
@@ -32308,7 +32331,8 @@ void LoadLevelData()
 	plusOneFuzzySprite.setDelayTime( 1 );
 	plusOneFuzzySprite.setRepeatCount( 1 );
 	plusOneFuzzySprite.setTotalFrames( 24 );
-	plusOneFuzzySprite.setPosition( IwGxGetScreenWidth() - 20, 0 + 50 );
+	//plusOneFuzzySprite.setPosition( IwGxGetScreenWidth() - 20, 0 + 50 );
+	plusOneFuzzySprite.setPosition( IwGxGetScreenWidth() - width*.042, 0 + height*.156 );
 
 	// Congrats Images	
 	congratsSpriteLevelUp.setUWidth( 128 );
@@ -35074,7 +35098,8 @@ void CheckAndWarpCubes()
 							//scoredDrops += 1;
 							//scoredDropsCurrent += 1;
 
-							pointSprites[i][j].setPosition( IwGxGetScreenWidth()/2 + 15, IwGxGetScreenHeight()/2 - 50);// set the location
+							//pointSprites[i][j].setPosition( IwGxGetScreenWidth()/2 + 15, IwGxGetScreenHeight()/2 - 50);// set the location
+							pointSprites[i][j].setPosition( IwGxGetScreenWidth()/2 + width*.031, IwGxGetScreenHeight()/2 - height*.156);// set the location
 
 							break; // stop assigning and activating sprites once free one is found
 						}
@@ -35118,7 +35143,8 @@ void CheckAndWarpCubes()
 							showPlusOneFuzzy = true;
 						}
 
-						pointSprites[i][j].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - 125);// set the location
+						//pointSprites[i][j].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - 125);// set the location
+						pointSprites[i][j].setPosition( IwGxGetScreenWidth()/2, IwGxGetScreenHeight()/2 - height*.391);// set the location
 
 						break; // stop assigning and activating sprites once free one is found
 					}
@@ -36230,7 +36256,8 @@ void CheckAndExplodeCubes()
 								pointSprites[6][j].setType( PointSprite::FIVE_HUNDRED ); // it is one hundred points if it is a fuzzy	
 								addScore( 500 );
 
-								pointSprites[6][j].setPosition( IwGxGetScreenWidth()/2 + 15, IwGxGetScreenHeight()/2 - 100);// set the location
+								//pointSprites[6][j].setPosition( IwGxGetScreenWidth()/2 + 15, IwGxGetScreenHeight()/2 - 100);// set the location
+								pointSprites[6][j].setPosition( IwGxGetScreenWidth()/2 + width*.031, IwGxGetScreenHeight()/2 - height*.313);// set the location
 
 								break; // stop assigning and activating sprites once free one is found
 							}
@@ -36400,7 +36427,8 @@ void CheckAndExplodeCubes()
 
 										IwGxWorldToScreenXY( x, y, p );
 
-										minusOneFuzzySprite[k][l].setPosition( x, y - 25);// set the location
+										//minusOneFuzzySprite[k][l].setPosition( x, y - 25);// set the location
+										minusOneFuzzySprite[k][l].setPosition( x, y - height*.078);// set the location
 
 										breakOutOf1stLoop = true; // breaks out of first loop
 										break; // breaks out of inner loop
@@ -36991,7 +37019,8 @@ int32 setShowPixie1( void* systemData, void* userData )
 {
 	playCelebration1();
 	showPixieDust[0] = true;
-	pixieSprite[0].setPosition( IwGxGetScreenWidth()/2 - 5, IwGxGetScreenHeight()/2 - 32 );	
+	//pixieSprite[0].setPosition( IwGxGetScreenWidth()/2 - 5, IwGxGetScreenHeight()/2 - 32 );	
+	pixieSprite[0].setPosition( IwGxGetScreenWidth()/2 - width*.010, IwGxGetScreenHeight()/2 - height*.100 );
 	return 0;
 }
 
@@ -36999,7 +37028,8 @@ int32 setShowPixie2( void* systemData, void* userData )
 {
 	playCelebration1();
 	showPixieDust[1] = true;
-	pixieSprite[1].setPosition( IwGxGetScreenWidth()/2 + 65, IwGxGetScreenHeight()/2 + 3 );
+	//pixieSprite[1].setPosition( IwGxGetScreenWidth()/2 + 65, IwGxGetScreenHeight()/2 + 3 );
+	pixieSprite[1].setPosition( IwGxGetScreenWidth()/2 + width*.135, IwGxGetScreenHeight()/2 + height*.009 );
 	return 0;
 }
 
@@ -37007,7 +37037,8 @@ int32 setShowPixie3( void* systemData, void* userData )
 {
 	playCelebration1();
 	showPixieDust[2] = true;
-	pixieSprite[2].setPosition( IwGxGetScreenWidth()/2 - 10, IwGxGetScreenHeight()/2 + 42 );
+	//pixieSprite[2].setPosition( IwGxGetScreenWidth()/2 - 10, IwGxGetScreenHeight()/2 + 42 );
+	pixieSprite[2].setPosition( IwGxGetScreenWidth()/2 - width*.021, IwGxGetScreenHeight()/2 + height*.131 );
 	return 0;
 }
 
