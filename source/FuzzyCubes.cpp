@@ -1832,6 +1832,7 @@ int16 perfectWarpCount = 0;
 
 // font
 CIwGxFont *hobo16;
+CIwGxFont *hobo32;
 CIwGxFont *ocr20;
 
 // score screen
@@ -7751,13 +7752,38 @@ bool Update()
 	if( GameState == AT_LOADING_BACKGROUND )
 	{		
 		LoadBackgroundAndOtherInit();
-
+		// load font
 		// FONT
 		// load group containing font
-		IwGetResManager()->LoadGroup("font.group"); // the font is hobo-16, bold
+		
 
 		// get font (first one is the .gxfont, second one is resource name
-		hobo16 = (CIwGxFont*)IwGetResManager()->GetResNamed("font", "CIwGxFont");
+		int16 deviation = 100;
+		if( height >= 1280 )
+		{
+			IwGetResManager()->LoadGroup("font.group"); // the font is hobo-16, bold
+		}
+		else if( height >= 960 )
+		{
+			IwGetResManager()->LoadGroup("font.group"); // the font is hobo-16, bold
+		}
+		else if( height >= 640 )
+		{
+			IwGetResManager()->LoadGroup("hobostd32.group"); // the font is hobo-16, bold
+			hobo16 = (CIwGxFont*)IwGetResManager()->GetResNamed("hobostd32", "CIwGxFont");
+		}
+		else if( height >= 480 )
+		{
+			IwGetResManager()->LoadGroup("hobostd24.group"); // the font is hobo-16, bold
+			hobo16 = (CIwGxFont*)IwGetResManager()->GetResNamed("hobostd24", "CIwGxFont");
+		}
+		else if( height >= 320 )
+		{
+			IwGetResManager()->LoadGroup("font.group"); // the font is hobo-16, bold
+			// font.tga is hobo16
+			hobo16 = (CIwGxFont*)IwGetResManager()->GetResNamed("font", "CIwGxFont");
+		}
+		
 		IwGxFontSetFont( hobo16 );
 
 		
@@ -8597,8 +8623,8 @@ bool Update()
 	if( GameState == PLAY_GAME || GameState == PLAY_TUTORIAL)
 	{
 		// update Level Bar 
-		//progressBarFrameSprite.setPosition( 10 + 110/2, 40 + 20/2 );
-		progressBarFrameSprite.setPosition( width * .135, height * .156 );
+		//progressBarFrameSprite.setPosition( 10 + 110/2, 35 + 20/2 );
+		progressBarFrameSprite.setPosition( width * .135, height * .141 );
 
 		if( storyMode == true )
 		{
@@ -8617,13 +8643,13 @@ bool Update()
 			int16 rectHeight = height * 0.063;
 			int16 fillWidth = (int16)(percentComplete * rectWidth);
 			progressBarSprite.setSize( fillWidth, rectHeight );
-			//progressBarSprite.setPosition( 10 + fillWidth/2, 40 + rectHeight/2 );
-			//progressBarFuzzySprite.setPosition( 10 + fillWidth, 40 + rectHeight/2 - 4 );
-			//progressBarGlowSprite.setPosition( 10 + fillWidth, 40 + rectHeight/2 );
+			//progressBarSprite.setPosition( 10 + fillWidth/2, 35 + rectHeight/2 );
+			//progressBarFuzzySprite.setPosition( 10 + fillWidth, 35 + rectHeight/2 - 4 );
+			//progressBarGlowSprite.setPosition( 10 + fillWidth, 35 + rectHeight/2 );
 
-			progressBarSprite.setPosition( width*.021 + fillWidth/2, height*.125 + rectHeight/2 );
-			progressBarFuzzySprite.setPosition( width*.021 + fillWidth, height*.125 + rectHeight/2 - 4 );
-			progressBarGlowSprite.setPosition( width*.021 + fillWidth, height*.125 + rectHeight/2 );
+			progressBarSprite.setPosition( width*.021 + fillWidth/2, height*.109 + rectHeight/2 );
+			progressBarFuzzySprite.setPosition( width*.021 + fillWidth, height*.109 + rectHeight/2 - height*.013 );
+			progressBarGlowSprite.setPosition( width*.021 + fillWidth, height*.109 + rectHeight/2 );
 
 			// show tutorial messages
 			if( episode == 1 )
@@ -9254,7 +9280,7 @@ bool Update()
 		}
 
 		//livesSprite.setPosition( IwGxGetScreenWidth() - 70, 50 );
-		livesSprite.setPosition( IwGxGetScreenWidth() - width*.146, height*.200 );
+		livesSprite.setPosition( IwGxGetScreenWidth() - width*.146, height*.156 );
 
 		// FLOATING OBJECT update. This needs to be updated so that it is doing so in-game. Also need spawning algorithm/method and death alg./method
 		if( testFO.activated == true )
@@ -11293,16 +11319,18 @@ void Render()
 					strcat( ep3TimerStr, ep3TimerString.c_str() ); // converting the string to cstring
 
 					IwGxFontSetFont( ocr20 );
-					// here
+					
 					//Draw the shadow
 					IwGxFontSetCol(0xff000000); // orange, when setting it's abgr
-					IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25, 0 + 30, 100, 100 ) );
+					//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25, 0 + 30, 100, 100 ) );
+					IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.052, 0 + height*.094, width, height ) );
 					IwGxFontPrepareText( ep3TimerData, ep3TimerStr);
 					IwGxFontDrawText( ep3TimerData );
 
 					// draw the text
 					IwGxFontSetCol(0xffccccff); // setting it's abgr
-					IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25 -1, 0 + 30-2, 100, 100 ) );
+					//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25 -1, 0 + 30-2, 100, 100 ) );
+					IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.052 - width*.002, 0 + height*.094-height*.006, width, height ) );
 					IwGxFontDrawText( ep3TimerData );
 
 					IwGxFontSetFont( hobo16 );
@@ -11358,12 +11386,14 @@ void Render()
 					plusOneFuzzySprite.resetAndPlayAnimation();
 				}
 			}
-
+			// here
+			IwGxFlush();
 			// render LIVES. Only render for play_game
 			livesSprite.Render();
 
 			IwGxFontSetCol(0xffccffff);
-			IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - 50, 0 + 30, 100, 100 ) );
+			//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - 50, 0 + 30, 100, 100 ) );
+			IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - width*.104, 0 + height*.094, width, height ) );
 			CIwGxFontPreparedData livesData;
 	
 			// int16 testNumber = 80;
@@ -11383,7 +11413,8 @@ void Render()
 
 			//Draw the text
 			IwGxFontSetCol(0xffccffff);
-			IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - 50 -1, 30 -2, 100, 100 ) );
+			//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - 50 -1, 30 -2, 100, 100 ) );
+			IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - width*.104 - width*.002, height*.094 - height*.006, width, height ) );
 			IwGxFontPrepareText( livesData, lives);
 			IwGxFontDrawText( livesData );
 
@@ -11394,7 +11425,8 @@ void Render()
 			IwGxFontSetCol(0xffccffff); // yellow, when setting it's abgr
 
 			//Set the formatting rect - this controls where the text appears and what it is formatted against
-			IwGxFontSetRect( CIwRect( 10, 0, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
+			//IwGxFontSetRect( CIwRect( 10, 0, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
+			IwGxFontSetRect( CIwRect( width*.021, 0, (int16)IwGxGetScreenWidth(), (int16)IwGxGetScreenHeight()) );
 
 			CIwGxFontPreparedData data;
 	
@@ -11425,7 +11457,8 @@ void Render()
 
 			//Draw the text
 			IwGxFontSetCol(0xffccffff); // yellow, when setting it's abgr
-			IwGxFontSetRect( CIwRect( 10 -1, 0 -2, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
+			//IwGxFontSetRect( CIwRect( 10 -1, 0 -2, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
+			IwGxFontSetRect( CIwRect( width*.021 - width*.002, 0 - height*.006, (int16)IwGxGetScreenWidth(), (int16)IwGxGetScreenHeight()) );
 			IwGxFontPrepareText( data, str);
 			IwGxFontDrawText( data );
 		} // end of rendering lives and score for Play_Game
@@ -12956,7 +12989,8 @@ void Render()
 			// Create the text descriptions for obtaining trophies
 			IwGxFontSetCol(0xffccffff); // yellow, when setting it's abgr
 			//Set the formatting rect - this controls where the text appears and what it is formatted against
-			IwGxFontSetRect( CIwRect(0, IwGxGetScreenHeight()/2 - 50, IwGxGetScreenWidth(), IwGxGetScreenHeight()) );
+			//IwGxFontSetRect( CIwRect(0, IwGxGetScreenHeight()/2 - 50, IwGxGetScreenWidth(), IwGxGetScreenHeight()) );
+			IwGxFontSetRect( CIwRect(0, IwGxGetScreenHeight()/2 - height*.156, IwGxGetScreenWidth(), IwGxGetScreenHeight()) );
 			CIwGxFontPreparedData trophyData;
 		
 			// trophyCString located in release high score buttons
@@ -36795,12 +36829,14 @@ void showAndPlayScore()
 	// draw shadow
 	//IwGxFontSetCol(0xffaaffff);
 	IwGxFontSetCol(0xff990033);
-	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25, IwGxGetScreenHeight()/2 - 52, 480, 200 ) );
+	//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25, IwGxGetScreenHeight()/2 - 52, 480, 200 ) );
+	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.052, IwGxGetScreenHeight()/2 - height*.163, width, height ) );
 	IwGxFontDrawText( scoreData );
 
 	// draw text
 	IwGxFontSetCol(0xffffffff);
-	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25 - 1, IwGxGetScreenHeight()/2 - 52 - 2, 480, 200 ) );
+	//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 25 - 1, IwGxGetScreenHeight()/2 - 52 - 2, 480, 200 ) );
+	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.052 - width*.002, IwGxGetScreenHeight()/2 - height*.163 - height*.006, width, height ) );
 	IwGxFontDrawText( scoreData );
 }
 
@@ -36837,12 +36873,14 @@ void showAndPlayFuzziness()
 	// draw shadow
 	//IwGxFontSetCol(0xff99ffff);
 	IwGxFontSetCol(0xff990033);
-	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 + 50, IwGxGetScreenHeight()/2 - 17, 480, 200 ) );
+	//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 + 50, IwGxGetScreenHeight()/2 - 17, 480, 200 ) );
+	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 + width*.104, IwGxGetScreenHeight()/2 - height*.053, width, height ) );
 	IwGxFontDrawText( efficiencyData );
 
 	// draw text
 	IwGxFontSetCol(0xffffffff);
-	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 + 50 - 1, IwGxGetScreenHeight()/2 - 17 - 2, 480, 200 ) );
+	//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 + 50 - 1, IwGxGetScreenHeight()/2 - 17 - 2, 480, 200 ) );
+	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 + width*.104 - width*.002, IwGxGetScreenHeight()/2 - height*.053 - height*.006, width, height ) );
 	IwGxFontDrawText( efficiencyData );
 }
 
@@ -36894,12 +36932,14 @@ void showAndPlaySkillTitle()
 	// draw shadow
 	//IwGxFontSetCol(0xff88ffff);
 	IwGxFontSetCol(0xff990033);
-	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 40, IwGxGetScreenHeight()/2 + 20, 480, 200 ) );
+	//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 40, IwGxGetScreenHeight()/2 + 20, 480, 200 ) );
+	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.083, IwGxGetScreenHeight()/2 + height*.063, width, height ) );
 	IwGxFontDrawText( skillData );
 
 	// draw text
 	IwGxFontSetCol(0xffffffff);
-	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 40 - 1, IwGxGetScreenHeight()/2 + 20 - 2, 480, 200 ) );
+	//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - 40 - 1, IwGxGetScreenHeight()/2 + 20 - 2, 480, 200 ) );
+	IwGxFontSetRect( CIwRect( IwGxGetScreenWidth()/2 - width*.083 - width*.002, IwGxGetScreenHeight()/2 + height*.063 - height*.006, width, height ) );
 	IwGxFontDrawText( skillData );
 }
 

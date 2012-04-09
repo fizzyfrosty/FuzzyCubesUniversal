@@ -645,7 +645,7 @@ void MenuScreen::Render()
 		// draw the text
 		IwGxFontSetCol(0xff66ffff);
 		//IwGxFontSetRect( CIwRect( sprite.position.x - (scoreString.length()/2 * 10) - 1, sprite.position.y - 100 - 2, 500, 300 ) ); // major glitch here. the size of score affects size of time. vice versa
-		IwGxFontSetRect( CIwRect( sprite.position.x - (scoreString.length()/2 * 10) - 1, sprite.position.y - IwGxGetScreenHeight() * .319, 500, 300 ) ); // major glitch here. the size of score affects size of time. vice versa
+		IwGxFontSetRect( CIwRect( sprite.position.x - (scoreString.length()/2 * 10) - IwGxGetScreenWidth()*.002, sprite.position.y - IwGxGetScreenHeight() * .319, 500, 300 ) ); // major glitch here. the size of score affects size of time. vice versa
 		IwGxFontPrepareText( scoreData, scoreChar );
 		IwGxFontDrawText( scoreData );
 
@@ -664,14 +664,36 @@ void MenuScreen::Render()
 		//IwGxFontSetCol(0xffaaffff);
 		IwGxFontSetCol(0xff330000);	
 		//IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 10), sprite.position.y - 15, 400, 300 ) );
-		IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 10), sprite.position.y - IwGxGetScreenHeight() * .047, 400, 300 ) );
+		if( IwGxGetScreenHeight() >= 640 )
+		{
+			IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 20), sprite.position.y - IwGxGetScreenHeight() * .047, IwGxGetScreenWidth(), IwGxGetScreenHeight() ) );
+		}
+		else if( IwGxGetScreenHeight() >= 480 )
+		{
+			IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 15), sprite.position.y - IwGxGetScreenHeight() * .047, IwGxGetScreenWidth(), IwGxGetScreenHeight() ) );
+		}
+		else //if( IwGxGetScreenHeight() >= 320 )
+		{
+			IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 10), sprite.position.y - IwGxGetScreenHeight() * .047, IwGxGetScreenWidth(), IwGxGetScreenHeight() ) );
+		}
 		IwGxFontDrawText( timeData );
 
 
 		// draw the text
 		IwGxFontSetCol(0xff66ffff);	
 		//IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 10) - 1, sprite.position.y - 15 - 2, 400, 300 ) );
-		IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 10) - 1, sprite.position.y - IwGxGetScreenHeight() * .053, 400, 300 ) );
+		if( IwGxGetScreenHeight() >= 640 )
+		{
+			IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 20) - IwGxGetScreenWidth()*.002, sprite.position.y - IwGxGetScreenHeight() * .053, IwGxGetScreenWidth(), IwGxGetScreenHeight() ) );
+		}
+		else if( IwGxGetScreenHeight() >= 480 )
+		{
+			IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 15) - IwGxGetScreenWidth()*.002, sprite.position.y - IwGxGetScreenHeight() * .053, IwGxGetScreenWidth(), IwGxGetScreenHeight() ) );
+		}
+		else //if( IwGxGetScreenHeight() >= 320 )
+		{
+			IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 10) - IwGxGetScreenWidth()*.002, sprite.position.y - IwGxGetScreenHeight() * .053, IwGxGetScreenWidth(), IwGxGetScreenHeight() ) );
+		}
 		IwGxFontPrepareText( timeData, timeChar );
 		IwGxFontDrawText( timeData );
 	}

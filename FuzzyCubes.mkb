@@ -82,6 +82,8 @@ assets
 	backgroundSphere6.group
 	backgroundSphere6.group.bin
 	font.group.bin
+	hobostd24.group.bin
+	hobostd32.group.bin
 	ocr20.group.bin
 	#menuData.group
 	#menuData.group.bin
