@@ -633,13 +633,14 @@ void MenuScreen::Render()
 		scoreStringStream << highScore;
 		string scoreString = scoreStringStream.str();
 		strcat( scoreChar, scoreString.c_str() );
-		IwGxFontPrepareText( scoreData, scoreChar );
+		
 
 		// draw the shadow
 		//IwGxFontSetCol(0xffaaffff);
 		IwGxFontSetCol(0xff330000);
 		//IwGxFontSetRect( CIwRect( sprite.position.x - (scoreString.length()/2 * 10), sprite.position.y - 100, 500, 300 ) ); // major glitch here. the size of score affects size of time. vice versa
 		IwGxFontSetRect( CIwRect( sprite.position.x - (scoreString.length()/2 * 10), sprite.position.y - IwGxGetScreenHeight() * .312, 500, 300 ) ); // major glitch here. the size of score affects size of time. vice versa
+		IwGxFontPrepareText( scoreData, scoreChar );
 		IwGxFontDrawText( scoreData );
 
 		// draw the text
@@ -657,7 +658,7 @@ void MenuScreen::Render()
 		timeStringStream << timeHours << " hours  " << timeMinutes << " minutes  " << timeSeconds << " seconds";
 		string timeString = timeStringStream.str();
 		strcat( timeChar, timeString.c_str() );
-		IwGxFontPrepareText( timeData, timeChar );
+		
 
 
 		// draw the shadow
@@ -676,6 +677,7 @@ void MenuScreen::Render()
 		{
 			IwGxFontSetRect( CIwRect( sprite.position.x - (timeString.length()/2 * 10), sprite.position.y - IwGxGetScreenHeight() * .047, IwGxGetScreenWidth(), IwGxGetScreenHeight() ) );
 		}
+		IwGxFontPrepareText( timeData, timeChar );
 		IwGxFontDrawText( timeData );
 
 

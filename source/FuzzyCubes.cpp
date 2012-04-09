@@ -1760,7 +1760,7 @@ CIw2DImage *titleImage;
 Sprite titleSprite;
 
 // developer variables
-bool musicOn = false;
+bool musicOn = true;
 
 SaveFile saveFile;
 string savedData;
@@ -6509,20 +6509,20 @@ void Init()
         hasFlurry = false;
 	}
 	// testing, disable flurry for testing soas to not skew data	
-	/*
 	else
 	{
 		hasFlurry = true;
 		s3eFlurrySetSessionReportOnPause( true );
 		s3eFlurrySetSessionReportOnClose( true );
-		int32 userID = s3eDeviceGetInt( S3E_DEVICE_UNIQUE_ID );
+		
+		/*int32 userID = s3eDeviceGetInt( S3E_DEVICE_UNIQUE_ID );
 		std::ostringstream idstream;
 		idstream << userID;
 		char idChar[500];
 		strcpy( idChar, (idstream.str()).c_str() );
 		s3eFlurrySetUserID( idChar );
+		*/
 	}
-	*/
 
 	//Enable AppCircle
 	//s3eFlurryAppCircleEnable();
@@ -6532,13 +6532,15 @@ void Init()
 	{
 		if(s3eDeviceGetInt (S3E_DEVICE_OS) == S3E_OS_ID_IPHONE)
 		{
-			s3eFlurryStart("SBI85EBKAWR1ETK5CCW9");
+			//s3eFlurryStart("SBI85EBKAWR1ETK5CCW9");
+			s3eFlurryStart("1DNJ3QW7TP76YSIHYJNL"); // this is the test flurry account for ios			
 			printf("Started Flurry...\n");
 		}
 		//Android Applicaton Key
 		else if(s3eDeviceGetInt (S3E_DEVICE_OS) == S3E_OS_ID_ANDROID)
 		{
-		//	s3eFlurryStart("HD4EZJ147ELQAT9H43KM");
+			//s3eFlurryStart("HD4EZJ147ELQAT9H43KM"); 
+			s3eFlurryStart("2YETE6ZDP2M9MQECE7UA");// this is test flurry account for android
 		}
 	}
 
@@ -7761,11 +7763,13 @@ bool Update()
 		int16 deviation = 100;
 		if( height >= 1280 )
 		{
-			IwGetResManager()->LoadGroup("font.group"); // the font is hobo-16, bold
+			IwGetResManager()->LoadGroup("hobostd32.group"); // the font is hobo-16, bold
+			hobo16 = (CIwGxFont*)IwGetResManager()->GetResNamed("hobostd32", "CIwGxFont");
 		}
 		else if( height >= 960 )
 		{
-			IwGetResManager()->LoadGroup("font.group"); // the font is hobo-16, bold
+			IwGetResManager()->LoadGroup("hobostd32.group"); // the font is hobo-16, bold
+			hobo16 = (CIwGxFont*)IwGetResManager()->GetResNamed("hobostd32", "CIwGxFont");
 		}
 		else if( height >= 640 )
 		{
@@ -7777,7 +7781,7 @@ bool Update()
 			IwGetResManager()->LoadGroup("hobostd24.group"); // the font is hobo-16, bold
 			hobo16 = (CIwGxFont*)IwGetResManager()->GetResNamed("hobostd24", "CIwGxFont");
 		}
-		else if( height >= 320 )
+		else //if( height >= 320 )
 		{
 			IwGetResManager()->LoadGroup("font.group"); // the font is hobo-16, bold
 			// font.tga is hobo16
@@ -11387,80 +11391,11 @@ void Render()
 				}
 			}
 			// here
-			IwGxFlush();
+			
 			// render LIVES. Only render for play_game
 			livesSprite.Render();
 
-			IwGxFontSetCol(0xffccffff);
-			//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - 50, 0 + 30, 100, 100 ) );
-			IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - width*.104, 0 + height*.094, width, height ) );
-			CIwGxFontPreparedData livesData;
-	
-			// int16 testNumber = 80;
-			char lives[100] = "x ";
-			//strcat( str, " Today is a good day.");	
-	
-			std::ostringstream sout2; // creating an output string stream
-			sout2 << numOfLives;				// sending an integer into string stream
-			string livesString = sout2.str();// retrieving the string from the string stream
-
-			strcat( lives, livesString.c_str() ); // converting the string to cstring
-
-			// draw the shadow
-			IwGxFontSetCol(0xff990033); // setting it's abgr
-			IwGxFontPrepareText( livesData, lives);
-			IwGxFontDrawText( livesData );
-
-			//Draw the text
-			IwGxFontSetCol(0xffccffff);
-			//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - 50 -1, 30 -2, 100, 100 ) );
-			IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - width*.104 - width*.002, height*.094 - height*.006, width, height ) );
-			IwGxFontPrepareText( livesData, lives);
-			IwGxFontDrawText( livesData );
-
-
-			// render SCORE
-			 //Set font colour to grey
-			//IwGxFontSetCol(0xff808080);
-			IwGxFontSetCol(0xffccffff); // yellow, when setting it's abgr
-
-			//Set the formatting rect - this controls where the text appears and what it is formatted against
-			//IwGxFontSetRect( CIwRect( 10, 0, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
-			IwGxFontSetRect( CIwRect( width*.021, 0, (int16)IwGxGetScreenWidth(), (int16)IwGxGetScreenHeight()) );
-
-			CIwGxFontPreparedData data;
-	
-			// int16 testNumber = 80;
-			char str[100] = "";
-			//strcat( str, " Today is a good day.");	
-	
-			// STRINGS
-			//std::cout << "hi";
-			//std::string a("hello");
-			//strcpy( str, a.c_str() );
-
-			std::ostringstream sout; // creating an output string stream
-			sout << score;	 
-				
-				//<< " D:" << difficulty
-				//<< "\n C:" << comfortIndexCurrent
-				//<< "\n U: " << upperFlowBound
-				//<< "\n L: " << lowerFlowBound 
-						// sending an integer into string stream
-			string scoreString = sout.str();// retrieving the string from the string stream
-			strcat( str, scoreString.c_str() ); // converting the string to cstring
-
-			// draw shadow
-			IwGxFontSetCol(0xff990033); // setting it's abgr
-			IwGxFontPrepareText( data, str);
-			IwGxFontDrawText( data );
-
-			//Draw the text
-			IwGxFontSetCol(0xffccffff); // yellow, when setting it's abgr
-			//IwGxFontSetRect( CIwRect( 10 -1, 0 -2, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
-			IwGxFontSetRect( CIwRect( width*.021 - width*.002, 0 - height*.006, (int16)IwGxGetScreenWidth(), (int16)IwGxGetScreenHeight()) );
-			IwGxFontPrepareText( data, str);
-			IwGxFontDrawText( data );
+			
 		} // end of rendering lives and score for Play_Game
 
 		CIwColour fullColor = {255, 255, 255, 255};
@@ -12621,6 +12556,79 @@ void Render()
 				}
 			}
 		}
+
+		// render lives text
+		IwGxFlush();
+		IwGxFontSetCol(0xffccffff);
+		//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - 50, 0 + 30, 100, 100 ) );
+		IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - width*.104, 0 + height*.094, width, height ) );
+		CIwGxFontPreparedData livesData;
+	
+		// int16 testNumber = 80;
+		char lives[100] = "x ";
+		//strcat( str, " Today is a good day.");	
+	
+		std::ostringstream sout2; // creating an output string stream
+		sout2 << numOfLives;				// sending an integer into string stream
+		string livesString = sout2.str();// retrieving the string from the string stream
+
+		strcat( lives, livesString.c_str() ); // converting the string to cstring
+
+		// draw the shadow
+		IwGxFontSetCol(0xff990033); // setting it's abgr
+		IwGxFontPrepareText( livesData, lives);
+		IwGxFontDrawText( livesData );
+
+		//Draw the text
+		IwGxFontSetCol(0xffccffff);
+		//IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - 50 -1, 30 -2, 100, 100 ) );
+		IwGxFontSetRect( CIwRect( IwGxGetScreenWidth() - width*.104 - width*.002, height*.094 - height*.006, width, height ) );
+		IwGxFontPrepareText( livesData, lives);
+		IwGxFontDrawText( livesData );
+
+
+		// render SCORE
+			//Set font colour to grey
+		//IwGxFontSetCol(0xff808080);
+		IwGxFontSetCol(0xffccffff); // yellow, when setting it's abgr
+
+		//Set the formatting rect - this controls where the text appears and what it is formatted against
+		//IwGxFontSetRect( CIwRect( 10, 0, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
+		IwGxFontSetRect( CIwRect( width*.021, 0, (int16)IwGxGetScreenWidth(), (int16)IwGxGetScreenHeight()) );
+
+		CIwGxFontPreparedData data;
+	
+		// int16 testNumber = 80;
+		char str[100] = "";
+		//strcat( str, " Today is a good day.");	
+	
+		// STRINGS
+		//std::cout << "hi";
+		//std::string a("hello");
+		//strcpy( str, a.c_str() );
+
+		std::ostringstream sout; // creating an output string stream
+		sout << score;	 
+				
+			//<< " D:" << difficulty
+			//<< "\n C:" << comfortIndexCurrent
+			//<< "\n U: " << upperFlowBound
+			//<< "\n L: " << lowerFlowBound 
+					// sending an integer into string stream
+		string scoreString = sout.str();// retrieving the string from the string stream
+		strcat( str, scoreString.c_str() ); // converting the string to cstring
+
+		// draw shadow
+		IwGxFontSetCol(0xff990033); // setting it's abgr
+		IwGxFontPrepareText( data, str);
+		IwGxFontDrawText( data );
+
+		//Draw the text
+		IwGxFontSetCol(0xffccffff); // yellow, when setting it's abgr
+		//IwGxFontSetRect( CIwRect( 10 -1, 0 -2, (int16)IwGxGetScreenWidth()-10, (int16)IwGxGetScreenHeight()-50) );
+		IwGxFontSetRect( CIwRect( width*.021 - width*.002, 0 - height*.006, (int16)IwGxGetScreenWidth(), (int16)IwGxGetScreenHeight()) );
+		IwGxFontPrepareText( data, str);
+		IwGxFontDrawText( data );
 
 	} // end of rendering gamestate = play_game	
 	/*
