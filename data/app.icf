@@ -44,6 +44,6 @@ MemSize=33600000#33600000#16800000#8400000
 MemSizeDebug=33600000#33600000#16800000#8400000
 SysTraceToFile=1
 #landscape
-DispFixRot=Landscape
+#DispFixRot="Landscape"
 #SplashMinDuration=3000
 #Splashscreen=splash2.jpg

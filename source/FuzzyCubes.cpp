@@ -26,6 +26,16 @@ Version Number: Major.minor.build
 1.1.0 - 2/19/12
 1.0.0 - 2/6/12
 
+// FUZZY CUBES HD UNIVERSAL
+
+5/22/12
+General Changes:
+	- Added all HD graphics
+	- increased timer in ep3 levels by 20 seconds.
+	- Tutorials no longer play unless new game is pressed.
+	- GameOver now restarts player to level 1
+	- Clicking Restart from Paused screen no longer brings you to cinematic, but goes straight to gameplay
+
 3/20/12
 General Changes:
 	- Continued Resolution correction
@@ -1760,7 +1770,7 @@ CIw2DImage *titleImage;
 Sprite titleSprite;
 
 // developer variables
-bool musicOn = true;
+bool musicOn = false;
 
 SaveFile saveFile;
 string savedData;
@@ -2028,6 +2038,7 @@ int timeSeconds;
 int timeMinutes;
 int timeHours;
 
+// episode 3 timer
 int ep3Frames;
 int ep3Seconds;
 int ep3Minutes;
@@ -6490,6 +6501,10 @@ void SingleTouchMotion( s3ePointerMotionEvent* event )
 
 void Init()
 {
+	// initialize orientation for android, take out for ios
+	s3eSurfaceSetInt(S3E_SURFACE_DEVICE_ORIENTATION_LOCK, 4);
+
+
 	IwGxInit(); // for rendering 3d/2d
 	Iw2DInit(); // for rendering images, sprites
 	IwGraphicsInit(); // for importing models for background obj - Put in loading background
@@ -6501,7 +6516,7 @@ void Init()
 	// initialize width and height
 	width = IwGxGetScreenWidth();
 	height = IwGxGetScreenHeight();
-	
+
 	// initialize flurry
 	if (!s3eFlurryAvailable())
     {
@@ -6583,7 +6598,7 @@ void Init()
 	// Set field of view
 	//IwGxSetPerspMul(0xa0);
 	// resolution based
-	// here
+	
 	/*
 	For phone devices, keep cameradepth but scale the z-depth of frustrum
 	For iPad, scale the cameradepth but not the zdepth?? Need to test.
@@ -7035,6 +7050,13 @@ bool Update()
 				// white fadein from menu > loading screen
 				transitionObject.setTransition( TransitionObject::WHITE, TransitionObject::FADEOUT, 1000 );
 			}
+
+			// Exiting Score Screen, entering Loading Screen. This only happens when clicking Restart to go to another level. Otherwise it will always go to cinematics.
+			if( GameState == AT_SCORE_SCREEN && TargetState == AT_LOADING_LEVEL )
+			{
+				// white fadein from loading screen > play cinematic 
+				transitionObject.setTransition( TransitionObject::WHITE, TransitionObject::FADEOUT, 1000 );
+			}
 			
 			// Exiting loading screen, entering cinematic
 			if( GameState == AT_LOADING_LEVEL && TargetState == PLAY_CINEMATIC )
@@ -7286,6 +7308,17 @@ bool Update()
 							TerminateEpisode( i+1 );
 							sphereLoaded[i] = false;
 						}
+					}
+				}
+				else if( TargetState == AT_LOADING_LEVEL ) // If coming from restart, unload all data so fresh data can be reloaded for ep1 tutorial images
+				{
+					transitionObject.setTransition( TransitionObject::WHITE, TransitionObject::FADEIN, 1000 );
+
+					// Unload level data so that new data can be loaded if: targetEpisode is 1, but current episode is not 1
+					if( levelDataLoaded == true && episode != 1 && targetEpisode == 1 )
+					{
+						TerminateLevelData();
+						levelDataLoaded = false;
 					}
 				}
 				else if( TargetState == AT_TUTORIAL_MENU_SCREEN )
@@ -7735,11 +7768,7 @@ bool Update()
 						}
 						break;						
 					} // end of switch( episode )
-				} // end of if targetState == play_game
-				else if( TargetState == AT_LOADING_LEVEL )
-				{
-					transitionObject.setTransition( TransitionObject::WHITE, TransitionObject::FADEIN, 1000 );
-				}
+				} // end of if targetState == play_game				
 
 			}
 		}
@@ -8502,9 +8531,15 @@ bool Update()
 				quitButton.setRenderSize( width * .208, width * .208 );
 			}
 
-			if( gameOver == true )
+			if( gameOver == true && savedAtScoreScreen == false )
 			{
 				playingStory = false;
+
+				// Reset target episode to 1 and reset all scores
+				targetEpisode = 1;
+				Save();
+
+				savedAtScoreScreen = true;
 
 				// flurry log stop of episode-start-event
 				if( hasFlurry )
@@ -11389,7 +11424,7 @@ void Render()
 					plusOneFuzzySprite.resetAndPlayAnimation();
 				}
 			}
-			// here
+			
 			
 			// render LIVES. Only render for play_game
 			livesSprite.Render();
@@ -19560,17 +19595,39 @@ void ReleaseScoreScreenButtons()
 			// new restart method, should save state
 			// load levels
 			storyMode = true;
-			// transition to loading levels. load when transition is finished
-			TargetState = PLAY_CINEMATIC;			
-			transition = true;				
-			transitionIsSet = false;
-				
 			limbo = true;
-			gameOver = false;
 
-			targetEpisode = episode; // maintain initializing same episode
+			if( gameOver == true )
+			{
+				targetEpisode = 1;
+
+				// if current episode is 1, do not perform level loading. 
+				if( episode == 1 )
+				{
+					TargetState = PLAY_CINEMATIC;
+				}
+				// if current episode is NOT 1, must perform a level loading to load tutorial assets
+				else
+				{
+					TargetState = AT_LOADING_LEVEL;
+				}
+
+				// transition to loading levels
+				transition = true;
+				transitionIsSet = false;
+			}
+			else
+			{
+				targetEpisode = episode; // maintain initializing same episode
+
+				// transition to loading levels. load when transition is finished
+				TargetState = PLAY_CINEMATIC;
+				transition = true;
+				transitionIsSet = false;
+			}
+
+			gameOver = false;			
 			SaveTargetEpisode();
-
 			levelNumber = 1; // this is important for initialization. targetEpisode is already loaded
 
 			// old restart method
@@ -19760,7 +19817,7 @@ void ReleasePausedButtons()
 			// load levels
 			storyMode = true;
 			// transition to loading levels. load when transition is finished
-			TargetState = PLAY_CINEMATIC;
+			TargetState = PLAY_GAME;
 			transition = true;				
 			transitionIsSet = false;
 				
@@ -29308,7 +29365,7 @@ void RotateActiveShadows()
 void InitializeMenu()
 {
 	//cameraDepth = -s * ((-1.0 * width) / 272 + 268 / 17.0);
-	// here
+	
 	cameraDepth = -s * 14;
 
 	qfiMode = false;
@@ -29975,7 +30032,7 @@ void InitializeDifficulty( int16 d )
 			fallMatrix.SetTrans( CIwSVec3(0, 0, s*12) );
 
 			ep3Frames = 0;
-			ep3Seconds = 150;
+			ep3Seconds = 170;
 			ep3TimerStart = false; // turn on when episode 7 loads, by next button
 
 		}
@@ -30072,7 +30129,6 @@ void InitializeDifficulty( int16 d )
 			}
 		}
 		*/
-		
 
 	} // end of if storyMode == true
 	else if( qfiMode == true )
@@ -30177,7 +30233,7 @@ void InitializeDifficulty( int16 d )
 	// this is formula for zoom depth when depth = s*7 at height = 320, and depth = s*5 at height = 768
 	// set camera depth
 	//cameraDepth = -s * (-1.0 * height / 300 + 59 / 7.0);
-	// here
+	
 	cameraDepth = -s * 7;
 	
 
@@ -31456,9 +31512,9 @@ void LoadSaveFile()
 			playedWarningTutorialOnce = saveFile.booleans[ SaveFile::playedWarningTutorialOnce ];
 
 			// set tutorial watch
-			playedHowToTutorialOnce = false;
-			playedBombTutorialOnce = false;
-			playedWarningTutorialOnce = false;
+			//playedHowToTutorialOnce = false;
+			//playedBombTutorialOnce = false;
+			//playedWarningTutorialOnce = false;
 
 			startAtCheckpoint = saveFile.booleans[ SaveFile::startAtCheckpoint ]; // this is new in 1.1
 
@@ -32475,7 +32531,7 @@ void LoadLevelData()
 		}
 	}
 	
-	// here. make these resolution independent
+	
 	// load active square indicators
 	blueSquare.Initialize( ActiveSquare::BLUE );DisplayLoading();
 	redSquare.Initialize( ActiveSquare::RED );DisplayLoading();
@@ -34522,15 +34578,15 @@ void CheckAndWarpCubes()
 					// reset the ep3 seconds on level up
 					if( levelNumber == 7 )
 					{
-						ep3Seconds = 150;
+						ep3Seconds = 170; // old value was 150
 					}
 					else if( levelNumber == 8 )
 					{
-						ep3Seconds = 170;
+						ep3Seconds = 190; // old value was 180
 					}
 					else if( levelNumber == 9 )
 					{
-						ep3Seconds = 180;
+						ep3Seconds = 210; // old value was 190
 					}
 
 					/*
