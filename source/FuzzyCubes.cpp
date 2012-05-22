@@ -35,6 +35,7 @@ General Changes:
 	- Tutorials no longer play unless new game is pressed.
 	- GameOver now restarts player to level 1
 	- Clicking Restart from Paused screen no longer brings you to cinematic, but goes straight to gameplay
+	- Android version should now stay lit during loading times
 
 3/20/12
 General Changes:
@@ -1565,6 +1566,7 @@ void SetTargetCubeSpawning();
 
 // load functions
 void DisplayLoading();
+void DisplayLoadingWithoutRefresh();
 int32 DisplayLoading( void* systemData, void* userData ); // for timer callback
 CIwTexture* DisplayLoading( int16 a );
 
@@ -2467,6 +2469,9 @@ Sprite loadingScreen;
 CIw2DImage* loadingImage;
 Sprite loadingIconSprite;
 CIw2DImage* loadingIconImage;
+
+Sprite fuzzyFactsSprites[3];
+CIw2DImage *fuzzyFactsImages[3];
 
 Sprite loadingMenuTransition;
 CIw2DImage* loadingMenuImage;
@@ -6501,8 +6506,12 @@ void SingleTouchMotion( s3ePointerMotionEvent* event )
 
 void Init()
 {
+	// android
 	// initialize orientation for android, take out for ios
-	s3eSurfaceSetInt(S3E_SURFACE_DEVICE_ORIENTATION_LOCK, 4);
+	if( s3eDeviceGetInt( S3E_DEVICE_OS ) != S3E_OS_ID_IPHONE )
+	{
+		s3eSurfaceSetInt(S3E_SURFACE_DEVICE_ORIENTATION_LOCK, 4);
+	}
 
 
 	IwGxInit(); // for rendering 3d/2d
@@ -6518,6 +6527,8 @@ void Init()
 	height = IwGxGetScreenHeight();
 
 	// initialize flurry
+	//s3eFlurryAppCircleEnable();
+
 	if (!s3eFlurryAvailable())
     {
         printf("Flurry not available. Failed to initialize Flurry.");
@@ -10802,13 +10813,13 @@ void Render()
 	}
 	else if( GameState == AT_LOADING_MENU )
 	{
-		loadingScreen.Render();
-		loadingIconSprite.Render();
+		// here
+		DisplayLoadingWithoutRefresh();
 	}
 	else if( GameState == AT_LOADING_LEVEL )
 	{
-		loadingScreen.Render();
-		loadingIconSprite.Render();
+		// here
+		DisplayLoadingWithoutRefresh();
 	}
 	else if( GameState == CHOOSE_DIFFICULTY )
 	{
@@ -19601,20 +19612,15 @@ void ReleaseScoreScreenButtons()
 			{
 				targetEpisode = 1;
 
-				// if current episode is 1, do not perform level loading. 
-				if( episode == 1 )
-				{
-					TargetState = PLAY_CINEMATIC;
-				}
-				// if current episode is NOT 1, must perform a level loading to load tutorial assets
-				else
-				{
-					TargetState = AT_LOADING_LEVEL;
-				}
-
-				// transition to loading levels
-				transition = true;
+				// transition to loading levels			
+				TargetState = PLAY_GAME;
+				transition = true;				
 				transitionIsSet = false;
+
+				ResetScoreAndLives();
+				Save();
+
+				gameOver = false;	
 			}
 			else
 			{
@@ -19626,7 +19632,6 @@ void ReleaseScoreScreenButtons()
 				transitionIsSet = false;
 			}
 
-			gameOver = false;			
 			SaveTargetEpisode();
 			levelNumber = 1; // this is important for initialization. targetEpisode is already loaded
 
@@ -31379,6 +31384,19 @@ void DisplayLoading()
 	loadingScreen.Render();
 	loadingIconSprite.Render();
 	Iw2DSurfaceShow();
+
+	// here
+	// Prevents screen from going dim
+	s3eDeviceBacklightOn();
+}
+
+void DisplayLoadingWithoutRefresh()
+{
+	loadingScreen.Render();
+	loadingIconSprite.Render();
+
+	// Prevents screen from going dim
+	s3eDeviceBacklightOn();
 }
 
 int32 DisplayLoading( void* systemData, void* userData )
