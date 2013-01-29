@@ -221,6 +221,7 @@ assets
 	next_pressed.png
 
 	quitconfirmation.png
+	quitconfirmation2.png
 	quitconfirmation_yes.png
 	quitconfirmation_no.png
 	newstoryconfirmation.png
@@ -352,9 +353,14 @@ assets
 	backButton_green.png
 	backButton_red.png
 	highscore_screen.png
+	highscore_screen2.png
 	credits_screen.png
 	tutorial.png
 	swipeArrows.png
+
+	fuzzyfact1.png
+	fuzzyfact2.png
+	fuzzyfact3.png
 
 	trophymessage_100k.png
 	trophymessage_100k_achieved.png
@@ -389,10 +395,10 @@ includepath .
 
 deployments
 {
-	#name='fuzzycubes'
-	#caption='Fuzzy Cubes' #maximum of 11 characters to be fully displayed in device	
-	caption='Fuzzy Universal'
-	name='fuzzycubesuniversal'
+	name='fuzzycubes'
+	caption='Fuzzy Cubes' #maximum of 11 characters to be fully displayed in device	
+	#caption='Fuzzy Universal'
+	#name='fuzzycubesuniversal'
 	embed-icf='1'
 	provider='Workhorse Bytes'
 
@@ -410,17 +416,37 @@ deployments
 	
 	iphone-icon-ipad=data/icon72x72.png
 	iphone-icon-ipad-search=data/icon50x50.png
-	#iphone-appid='com.workhorsebytes.fuzzycubes'
-	iphone-appid='com.workhorsebytes.fuzzycubesuniversal'
+	iphone-appid='com.workhorsebytes.fuzzycubes'
+	#iphone-appid='com.workhorsebytes.fuzzycubesuniversal'
 
 	#for distribution only
 	#iphone-provisioning-profile='data/Fuzzy_Cubes_Distribution_Profile.mobileprovision'
 	#iphone-sign-for-distribution='1'
 	#version-major='1'
-	#version-minor='1'
+	#version-minor='2'
 	#version-revision='0'
 	
 	
-	#iphone-info-plist='data/Info.plist'
+	#iphone-info-plist='data/Info2.plist'
 	#iphone-link-opts='-weak_framework iAd' #for adwhirl ONLY
+
+
+	#ANDROID
+	version-major='1'
+	version-minor='0'
+	version-revision='0'
+
+	android-icon='icon48x48.png'
+	android-icon-hdpi='icon72x72.png'
+	android-icon-mdpi='icon48x48.png'
+	android-icon-ldpi='icon36x36.png'
+
+	#for distribution only
+	android-keystore='androidkeystore.keystore'
+	android-storepass='thefuzzies'
+	android-aliasname='fuzzycubes'
+	android-keypass='thefuzzies'
+
+	android-manifest='AndroidManifest.xml'
+
 }
